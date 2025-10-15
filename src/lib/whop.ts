@@ -5,29 +5,29 @@ export interface WhopSdk {
   messages: {
     getMessage(args: {
       id: string;
-    }): Promise<any>;
+    }): Promise<Record<string, unknown>>;
     listMessagesFromChat(args: {
       chatExperienceId: string;
-    }): Promise<any>;
+    }): Promise<Record<string, unknown>>;
     sendMessageToChat(args: {
       experienceId?: string;
       channelId?: string;
       message: string;
       attachments?: Array<{ directUploadId?: string; id?: string }>;
-    }): Promise<any>;
+    }): Promise<Record<string, unknown>>;
   };
   experiences: {
     listExperiences(args: {
       companyId: string;
-    }): Promise<any>;
+    }): Promise<Record<string, unknown>>;
   };
   companies: {
     listMemberships(args: {
       companyId: string;
-    }): Promise<any>;
+    }): Promise<Record<string, unknown>>;
     listMembers(args: {
       companyId: string;
-    }): Promise<any>;
+    }): Promise<Record<string, unknown>>;
   };
   attachments: {
     uploadAttachment(args: {
@@ -41,7 +41,7 @@ export interface WhopSdk {
     }): Promise<any>;
     getCurrentUser(): Promise<any>;
   };
-  verifyUserToken: (headers: any) => Promise<{ userId: string } | any>;
+  verifyUserToken: (headers: Headers) => Promise<{ userId: string } | Record<string, unknown>>;
 }
 
 export function getWhopSdk(): WhopSdk {

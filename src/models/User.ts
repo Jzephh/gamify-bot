@@ -10,7 +10,7 @@ export interface IUser extends Document {
   freeTimeEarned: number;
   lastImageMessage: Date;
   roles: string[];
-  stats: Record<string, any>;
+gti  stats: Record<string, unknown>;
   createdAt: Date;
   updatedAt: Date;
 }

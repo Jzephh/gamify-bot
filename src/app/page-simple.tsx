@@ -49,7 +49,7 @@ export default function Dashboard() {
       } else {
         setMessage({ type: 'error', text: data.error || 'Failed to fetch user data' });
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Failed to fetch user data' });
     } finally {
       setLoading(false);
@@ -83,7 +83,7 @@ export default function Dashboard() {
       } else {
         setMessage({ type: 'error', text: data.error || 'Purchase failed' });
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Purchase failed' });
     } finally {
       setPurchasing(null);

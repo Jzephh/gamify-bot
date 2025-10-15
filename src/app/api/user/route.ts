@@ -4,7 +4,7 @@ import { User } from '@/models/User';
 import { getWhopSdk } from '@/lib/whop';
 import { headers } from 'next/headers';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await connectDB();
     
@@ -22,25 +22,26 @@ export async function GET(request: NextRequest) {
     if (!user) {
       // Create new user if doesn't exist
       const whopSdk = getWhopSdk();
-      let userData: any = {};
+        let userData: any = {};
       
       try {
-        userData = await whopSdk.users.getUser({ userId });
+        userData = await whopSdk.users.getUser({ userId: userId as string });
       } catch (error) {
         console.error('Error fetching user from Whop:', error);
+        userData = {};
       }
       
-      user = new User({
-        userId,
-        companyId,
-        username: userData?.username || '',
-        name: userData?.name || userData?.fullName || '',
-        avatarUrl: userData?.profilePicture?.sourceUrl || userData?.profilePicUrl || userData?.avatarUrl || '',
-        roles: userData?.roles || [],
-        stats: userData?.stats || {},
-        points: 0,
-        freeTimeEarned: 0,
-      });
+        user = new User({
+          userId,
+          companyId,
+          username: userData?.username || '',
+          name: userData?.name || userData?.fullName || '',
+          avatarUrl: userData?.profilePicture?.sourceUrl || userData?.profilePicUrl || userData?.avatarUrl || '',
+          roles: userData?.roles || [],
+          stats: userData?.stats || {},
+          points: 0,
+          freeTimeEarned: 0,
+        });
       
       await user.save();
     }
