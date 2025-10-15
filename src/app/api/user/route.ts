@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { User } from '@/models/User';
 import { getWhopSdk } from '@/lib/whop';
@@ -22,7 +22,7 @@ export async function GET() {
     if (!user) {
       // Create new user if doesn't exist
       const whopSdk = getWhopSdk();
-        let userData: any = {};
+        let userData: Record<string, unknown> = {};
       
       try {
         userData = await whopSdk.users.getUser({ userId: userId as string });

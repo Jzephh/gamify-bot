@@ -38,8 +38,8 @@ export interface WhopSdk {
   users: {
     getUser(args: {
       userId: string;
-    }): Promise<any>;
-    getCurrentUser(): Promise<any>;
+    }): Promise<Record<string, unknown>>;
+    getCurrentUser(): Promise<Record<string, unknown>>;
   };
   verifyUserToken: (headers: Headers) => Promise<{ userId: string } | Record<string, unknown>>;
 }
