@@ -16,9 +16,7 @@ import {
 } from '@mui/material';
 import {
   Star,
-  StarBorder,
-  CheckCircle,
-  Cancel
+  StarBorder
 } from '@mui/icons-material';
 
 interface User {
@@ -94,9 +92,9 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <Container maxWidth="md" sx={{ mt: 4, textAlign: 'center' }}>
+      <Container maxWidth="md" style={{ marginTop: '2rem', textAlign: 'center' }}>
         <CircularProgress />
-        <Typography variant="h6" sx={{ mt: 2 }}>
+        <Typography variant="h6" style={{ marginTop: '1rem' }}>
           Loading...
         </Typography>
       </Container>
@@ -105,7 +103,7 @@ export default function Dashboard() {
 
   if (!user) {
     return (
-      <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Container maxWidth="md" style={{ marginTop: '2rem' }}>
         <Alert severity="error">
           User not found. Please check your user ID.
         </Alert>
@@ -114,8 +112,8 @@ export default function Dashboard() {
   }
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-      <Box sx={{ textAlign: 'center', mb: 4 }}>
+    <Container maxWidth="md" style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+      <Box style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <Typography variant="h3" component="h1" gutterBottom>
           Membership Dashboard
         </Typography>
@@ -125,13 +123,13 @@ export default function Dashboard() {
       </Box>
 
       {/* User Info Card */}
-      <Card sx={{ mb: 4 }}>
+      <Card style={{ marginBottom: '2rem' }}>
         <CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <Box style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
             <Avatar 
               src={user.avatarUrl} 
               alt={user.name}
-              sx={{ width: 56, height: 56, mr: 2 }}
+              style={{ width: 56, height: 56, marginRight: '1rem' }}
             />
             <Box>
               <Typography variant="h5" component="h2">
@@ -143,8 +141,8 @@ export default function Dashboard() {
             </Box>
           </Box>
           
-          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            <Paper sx={{ p: 2, textAlign: 'center', flex: '1 1 200px', minWidth: '200px' }}>
+          <Box style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <Paper style={{ padding: '1rem', textAlign: 'center', flex: '1 1 200px', minWidth: '200px' }}>
               <Typography variant="h4" color="primary">
                 {user.points}
               </Typography>
@@ -152,7 +150,7 @@ export default function Dashboard() {
                 Points Available
               </Typography>
             </Paper>
-            <Paper sx={{ p: 2, textAlign: 'center', flex: '1 1 200px', minWidth: '200px' }}>
+            <Paper style={{ padding: '1rem', textAlign: 'center', flex: '1 1 200px', minWidth: '200px' }}>
               <Typography variant="h4" color="secondary">
                 {user.freeTimeEarned}
               </Typography>
@@ -168,7 +166,7 @@ export default function Dashboard() {
       {message && (
         <Alert 
           severity={message.type} 
-          sx={{ mb: 3 }}
+          style={{ marginBottom: '1.5rem' }}
           onClose={() => setMessage(null)}
         >
           {message.text}
@@ -176,13 +174,13 @@ export default function Dashboard() {
       )}
 
       {/* Membership Options */}
-      <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+      <Box style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
         {/* 7 Days Free Membership */}
-        <Box sx={{ flex: '1 1 300px', minWidth: '300px' }}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flexGrow: 1 }}>
-              <Box sx={{ textAlign: 'center', mb: 2 }}>
-                <Star color="primary" sx={{ fontSize: 48, mb: 1 }} />
+        <Box style={{ flex: '1 1 300px', minWidth: '300px' }}>
+          <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <CardContent style={{ flexGrow: 1 }}>
+              <Box style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                <Star color="primary" style={{ fontSize: 48, marginBottom: '0.5rem' }} />
                 <Typography variant="h5" component="h3" gutterBottom>
                   7 Days Free
                 </Typography>
@@ -190,15 +188,15 @@ export default function Dashboard() {
                   label="50 Points" 
                   color="primary" 
                   variant="outlined"
-                  sx={{ mb: 2 }}
+                  style={{ marginBottom: '1rem' }}
                 />
               </Box>
               
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              <Typography variant="body2" color="text.secondary" style={{ marginBottom: '1.5rem' }}>
                 Get 7 days of free membership access to all premium features.
               </Typography>
               
-              <Box sx={{ mt: 'auto' }}>
+              <Box style={{ marginTop: 'auto' }}>
                 <Button
                   variant="contained"
                   fullWidth
@@ -211,7 +209,7 @@ export default function Dashboard() {
                 </Button>
                 
                 {user.points < 50 && (
-                  <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
+                  <Typography variant="caption" color="error" style={{ marginTop: '0.5rem', display: 'block' }}>
                     Insufficient points. Need {50 - user.points} more points.
                   </Typography>
                 )}
@@ -221,11 +219,11 @@ export default function Dashboard() {
         </Box>
 
         {/* 1 Month Free Membership */}
-        <Box sx={{ flex: '1 1 300px', minWidth: '300px' }}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flexGrow: 1 }}>
-              <Box sx={{ textAlign: 'center', mb: 2 }}>
-                <Star color="secondary" sx={{ fontSize: 48, mb: 1 }} />
+        <Box style={{ flex: '1 1 300px', minWidth: '300px' }}>
+          <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <CardContent style={{ flexGrow: 1 }}>
+              <Box style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                <Star color="secondary" style={{ fontSize: 48, marginBottom: '0.5rem' }} />
                 <Typography variant="h5" component="h3" gutterBottom>
                   1 Month Free
                 </Typography>
@@ -233,15 +231,15 @@ export default function Dashboard() {
                   label="150 Points" 
                   color="secondary" 
                   variant="outlined"
-                  sx={{ mb: 2 }}
+                  style={{ marginBottom: '1rem' }}
                 />
               </Box>
               
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              <Typography variant="body2" color="text.secondary" style={{ marginBottom: '1.5rem' }}>
                 Get 1 month of free membership access to all premium features.
               </Typography>
               
-              <Box sx={{ mt: 'auto' }}>
+              <Box style={{ marginTop: 'auto' }}>
                 <Button
                   variant="contained"
                   color="secondary"
@@ -255,7 +253,7 @@ export default function Dashboard() {
                 </Button>
                 
                 {user.points < 150 && (
-                  <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
+                  <Typography variant="caption" color="error" style={{ marginTop: '0.5rem', display: 'block' }}>
                     Insufficient points. Need {150 - user.points} more points.
                   </Typography>
                 )}
@@ -266,7 +264,7 @@ export default function Dashboard() {
       </Box>
 
       {/* Instructions */}
-      <Box sx={{ mt: 4, p: 3, bgcolor: 'grey.50', borderRadius: 2 }}>
+      <Box style={{ marginTop: '2rem', padding: '1.5rem', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
         <Typography variant="h6" gutterBottom>
           How it works:
         </Typography>

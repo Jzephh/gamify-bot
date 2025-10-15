@@ -1,0 +1,15 @@
+{
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "WHOP_API_KEY": "@whop_api_key",
+    "NEXT_PUBLIC_WHOP_APP_ID": "@next_public_whop_app_id",
+    "NEXT_PUBLIC_WHOP_AGENT_USER_ID": "@next_public_whop_agent_user_id",
+    "NEXT_PUBLIC_WHOP_COMPANY_ID": "@next_public_whop_company_id",
+    "MONGO_DB": "@mongo_db",
+    "MONGO_URI": "@mongo_uri"
+  }
+}
