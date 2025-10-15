@@ -34,11 +34,11 @@ export async function GET() {
         user = new User({
           userId,
           companyId,
-          username: userData?.username || '',
-          name: userData?.name || userData?.fullName || '',
-          avatarUrl: userData?.profilePicture?.sourceUrl || userData?.profilePicUrl || userData?.avatarUrl || '',
-          roles: userData?.roles || [],
-          stats: userData?.stats || {},
+          username: (userData as any)?.username || '',
+          name: (userData as any)?.name || (userData as any)?.fullName || '',
+          avatarUrl: (userData as any)?.profilePicture?.sourceUrl || (userData as any)?.profilePicUrl || (userData as any)?.avatarUrl || '',
+          roles: (userData as any)?.roles || [],
+          stats: (userData as any)?.stats || {},
           points: 0,
           freeTimeEarned: 0,
         });
