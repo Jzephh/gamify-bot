@@ -4,6 +4,19 @@ import { User } from '@/models/User';
 import { getWhopSdk } from '@/lib/whop';
 import { headers } from 'next/headers';
 
+interface WhopUserData {
+  username?: string;
+  name?: string;
+  fullName?: string;
+  profilePicture?: {
+    sourceUrl?: string;
+  };
+  profilePicUrl?: string;
+  avatarUrl?: string;
+  roles?: unknown[];
+  stats?: Record<string, unknown>;
+}
+
 export async function GET() {
   try {
     await connectDB();
@@ -22,7 +35,7 @@ export async function GET() {
     if (!user) {
       // Create new user if doesn't exist
       const whopSdk = getWhopSdk();
-        let userData: Record<string, unknown> = {};
+        let userData: WhopUserData = {};
       
       try {
         userData = await whopSdk.users.getUser({ userId: userId as string });
@@ -34,11 +47,11 @@ export async function GET() {
         user = new User({
           userId,
           companyId,
-          username: (userData as any)?.username || '',
-          name: (userData as any)?.name || (userData as any)?.fullName || '',
-          avatarUrl: (userData as any)?.profilePicture?.sourceUrl || (userData as any)?.profilePicUrl || (userData as any)?.avatarUrl || '',
-          roles: (userData as any)?.roles || [],
-          stats: (userData as any)?.stats || {},
+          username: userData?.username || '',
+          name: userData?.name || userData?.fullName || '',
+          avatarUrl: userData?.profilePicture?.sourceUrl || userData?.profilePicUrl || userData?.avatarUrl || '',
+          roles: userData?.roles || [],
+          stats: userData?.stats || {},
           points: 0,
           freeTimeEarned: 0,
         });
