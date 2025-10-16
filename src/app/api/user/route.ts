@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { User } from '@/models/User';
-import { getWhopSdk } from '@/lib/whop';
-import { headers } from 'next/headers';
+// import { getWhopSdk } from '@/lib/whop';
+// import { headers } from 'next/headers';
 
 interface WhopUserData {
   username?: string;
@@ -22,7 +22,6 @@ export async function GET() {
     await connectDB();
     
     // Log database connection info
-    const mongoose = await import('mongoose');
     console.log('=== VERCEL DEPLOYMENT DEBUG ===');
     console.log('Environment:', process.env.NODE_ENV);
     console.log('MONGO_URI (first 50 chars):', process.env.MONGO_URI?.substring(0, 50) + '...');
@@ -124,7 +123,7 @@ export async function GET() {
     if (!user) {
       // Create new user if doesn't exist
       // For testing, use mock user data
-      let userData: WhopUserData = {
+      const userData: WhopUserData = {
         username: 'localgang',
         name: 'hobby',
         fullName: 'hobby',
