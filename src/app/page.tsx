@@ -21,7 +21,11 @@ import {
 } from '@mui/material';
 import {
   Star,
-  StarBorder,
+  Stars,
+  AutoAwesome,
+  WorkspacePremium,
+  Loyalty,
+  RocketLaunch,
   CheckCircle,
   Close,
   AdminPanelSettings,
@@ -325,7 +329,7 @@ export default function Dashboard() {
               borderRadius: '16px'
             }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-                <Star sx={{ fontSize: 32, mr: 1, color: '#FFD700' }} />
+                <Stars sx={{ fontSize: 32, mr: 1, color: '#FFD700' }} />
                 <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#FFD700' }}>
                 {user.points}
               </Typography>
@@ -380,7 +384,7 @@ export default function Dashboard() {
                   '100%': { left: '120%' }
                 }
               }}>
-                <Star 
+                <AutoAwesome 
                   sx={{ 
                     fontSize: 24,
                     color: '#F72585',
@@ -569,7 +573,7 @@ export default function Dashboard() {
                     mb: 2,
                     border: '2px solid rgba(255,255,255,0.3)'
                   }}>
-                    <Star sx={{ fontSize: 42, color: '#C77DFF', filter: 'drop-shadow(0 0 12px rgba(199,125,255,0.8))' }} />
+                    <WorkspacePremium sx={{ fontSize: 42, color: '#C77DFF', filter: 'drop-shadow(0 0 12px rgba(199,125,255,0.8))' }} />
                   </Box>
                   <Typography variant="h4" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                     {membership.name}
@@ -584,7 +588,7 @@ export default function Dashboard() {
                     mb: 2,
                     border: '1px solid rgba(255,255,255,0.3)'
                   }}>
-                    <Star sx={{ fontSize: 20, mr: 1, color: '#F72585' }} />
+                    <Loyalty sx={{ fontSize: 20, mr: 1, color: '#F72585' }} />
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                       {membership.cost} Points
                 </Typography>
@@ -602,7 +606,7 @@ export default function Dashboard() {
                   size="large"
                     disabled={user.points < membership.cost || purchasing === membership._id}
                     onClick={() => purchaseMembership(membership._id)}
-                    startIcon={purchasing === membership._id ? <CircularProgress size={20} /> : <StarBorder />}
+                    startIcon={purchasing === membership._id ? <CircularProgress size={20} /> : <RocketLaunch />}
                     sx={{
                       background: 'rgba(255,255,255,0.2)',
                       color: 'white',
