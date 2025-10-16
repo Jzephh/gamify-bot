@@ -385,30 +385,41 @@ export default function Dashboard() {
 
       {/* Membership Options */}
       <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
-        {memberships.map((membership, index) => (
-          <Box key={membership._id} sx={{ flex: '1 1 350px', minWidth: '350px', maxWidth: '400px' }}>
-            <Card sx={{ 
-              height: '100%', 
-              display: 'flex', 
-              flexDirection: 'column',
-              background: index === 0 
-                ? 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)'
-                : 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)',
-              color: 'white',
-              position: 'relative',
-              overflow: 'hidden',
-              borderRadius: '24px',
-              boxShadow: index === 0 
-                ? '0 20px 40px rgba(255, 107, 107, 0.3)'
-                : '0 20px 40px rgba(78, 205, 196, 0.3)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                transform: 'translateY(-8px)',
-                boxShadow: index === 0 
-                  ? '0 30px 60px rgba(255, 107, 107, 0.4)'
-                  : '0 30px 60px rgba(78, 205, 196, 0.4)'
-              }
-            }}>
+        {memberships.map((membership, index) => {
+          // Generate random colors for each membership card
+          const colorSchemes = [
+            { bg: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)', shadow: 'rgba(255, 107, 107, 0.3)' },
+            { bg: 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)', shadow: 'rgba(78, 205, 196, 0.3)' },
+            { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', shadow: 'rgba(102, 126, 234, 0.3)' },
+            { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', shadow: 'rgba(240, 147, 251, 0.3)' },
+            { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', shadow: 'rgba(79, 172, 254, 0.3)' },
+            { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', shadow: 'rgba(67, 233, 123, 0.3)' },
+            { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', shadow: 'rgba(250, 112, 154, 0.3)' },
+            { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', shadow: 'rgba(168, 237, 234, 0.3)' },
+            { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', shadow: 'rgba(255, 154, 158, 0.3)' },
+            { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', shadow: 'rgba(255, 236, 210, 0.3)' }
+          ];
+          
+          const colorScheme = colorSchemes[index % colorSchemes.length];
+          
+          return (
+            <Box key={membership._id} sx={{ flex: '1 1 350px', minWidth: '350px', maxWidth: '400px' }}>
+              <Card sx={{ 
+                height: '100%', 
+                display: 'flex', 
+                flexDirection: 'column',
+                background: colorScheme.bg,
+                color: 'white',
+                position: 'relative',
+                overflow: 'hidden',
+                borderRadius: '24px',
+                boxShadow: `0 20px 40px ${colorScheme.shadow}`,
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-8px)',
+                  boxShadow: `0 30px 60px ${colorScheme.shadow.replace('0.3', '0.4')}`
+                }
+              }}>
               {/* Decorative Elements */}
               <Box sx={{
                 position: 'absolute',
@@ -515,7 +526,8 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </Box>
-        ))}
+          );
+        })}
       </Box>
 
       {/* Success Modal */}
