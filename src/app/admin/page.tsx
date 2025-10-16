@@ -38,6 +38,7 @@ import {
   Star,
   Group,
   CheckCircle,
+  FactCheck,
 } from '@mui/icons-material';
 
 interface User {
@@ -600,7 +601,7 @@ export default function AdminDashboard() {
                               size="small"
                               title="Review Request"
                             >
-                              <Edit />
+                              <FactCheck />
                             </IconButton>
                             <IconButton
                               onClick={() => handleRejectUser(user)}
