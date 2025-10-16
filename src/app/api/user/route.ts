@@ -27,9 +27,14 @@ export async function GET() {
     console.log('Environment:', process.env.NODE_ENV);
     console.log('MONGO_URI (first 50 chars):', process.env.MONGO_URI?.substring(0, 50) + '...');
     
-    const whopSdk = getWhopSdk();
-    const { userId } = await whopSdk.verifyUserToken(await headers());
-    console.log('userId', userId);
+    // HARDCODED FOR TESTING - Remove this in production
+    const userId = 'user_lT20gDxtbTkix';
+    console.log('HARDCODED userId for testing:', userId);
+    
+    // Original code (commented out for testing):
+    // const whopSdk = getWhopSdk();
+    // const { userId } = await whopSdk.verifyUserToken(await headers());
+    
     const companyId = process.env.NEXT_PUBLIC_WHOP_COMPANY_ID!;
     console.log('companyId', companyId);
     
@@ -54,9 +59,22 @@ export async function GET() {
     // If no user found by userId/companyId, try multiple fallback methods
     if (!user) {
       try {
-        const whopSdk = getWhopSdk();
-        const userData = await whopSdk.users.getUser({ userId: userId as string });
-        console.log('Whop user data:', userData);
+        // For testing, use mock user data instead of Whop API
+        const userData = {
+          username: 'localgang',
+          name: 'hobby',
+          fullName: 'hobby',
+          profilePicture: { sourceUrl: 'https://assets.whop.com/uploads/2025-10-15/user_18128674_74c24160-7286-4f79-9bc4-25bb8b7e0705.png' },
+          profilePicUrl: 'https://assets.whop.com/uploads/2025-10-15/user_18128674_74c24160-7286-4f79-9bc4-25bb8b7e0705.png',
+          avatarUrl: 'https://assets.whop.com/uploads/2025-10-15/user_18128674_74c24160-7286-4f79-9bc4-25bb8b7e0705.png',
+          roles: [],
+          stats: {}
+        };
+        console.log('MOCK user data for testing:', userData);
+        
+        // Original code (commented out for testing):
+        // const whopSdk = getWhopSdk();
+        // const userData = await whopSdk.users.getUser({ userId: userId as string });
         
         // Try to find existing user by username
         if (userData?.username) {
@@ -105,15 +123,26 @@ export async function GET() {
     
     if (!user) {
       // Create new user if doesn't exist
-      const whopSdk = getWhopSdk();
-        let userData: WhopUserData = {};
+      // For testing, use mock user data
+      let userData: WhopUserData = {
+        username: 'localgang',
+        name: 'hobby',
+        fullName: 'hobby',
+        profilePicture: { sourceUrl: 'https://assets.whop.com/uploads/2025-10-15/user_18128674_74c24160-7286-4f79-9bc4-25bb8b7e0705.png' },
+        profilePicUrl: 'https://assets.whop.com/uploads/2025-10-15/user_18128674_74c24160-7286-4f79-9bc4-25bb8b7e0705.png',
+        avatarUrl: 'https://assets.whop.com/uploads/2025-10-15/user_18128674_74c24160-7286-4f79-9bc4-25bb8b7e0705.png',
+        roles: [],
+        stats: {}
+      };
       
-      try {
-        userData = await whopSdk.users.getUser({ userId: userId as string });
-      } catch (error) {
-        console.error('Error fetching user from Whop:', error);
-        userData = {};
-      }
+      // Original code (commented out for testing):
+      // const whopSdk = getWhopSdk();
+      // try {
+      //   userData = await whopSdk.users.getUser({ userId: userId as string });
+      // } catch (error) {
+      //   console.error('Error fetching user from Whop:', error);
+      //   userData = {};
+      // }
       
         user = new User({
           userId,
