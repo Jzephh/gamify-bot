@@ -298,7 +298,7 @@ export default function Dashboard() {
                   getFreeTimeStatus(user) === 'Rejected' ? 'error' :
                   getFreeTimeStatus(user) === 'Pending' ? 'info' : 'default'
                 }
-                size="large"
+                size="medium"
                 sx={{ fontSize: '1.2rem', py: 1 }}
               />
               <Typography variant="body2" color="text.secondary">
