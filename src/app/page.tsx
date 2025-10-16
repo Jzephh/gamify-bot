@@ -350,8 +350,7 @@ export default function Dashboard() {
             }}
             >
               <a
-                href="https://whop.com/experiences/exp_xAK4jZFtFFMGzB"
-                target="_blank"
+                href="https://whop.com/joined/emoney-fa02/success-xAK4jZFtFFMGzB/app/"
                 rel="noopener noreferrer"
                 style={{
                   textDecoration: 'none',
