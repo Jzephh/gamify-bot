@@ -22,12 +22,12 @@ export async function GET() {
     await connectDB();
     
     // Log database connection info
-    const mongoose = require('mongoose');
+    const mongoose = await import('mongoose');
     console.log('=== VERCEL DEPLOYMENT DEBUG ===');
-    console.log('Connected to database:', mongoose.connection.db.databaseName);
+    console.log('Connected to database:', mongoose.default.connection.db.databaseName);
     console.log('Environment:', process.env.NODE_ENV);
     console.log('MONGO_URI (first 50 chars):', process.env.MONGO_URI?.substring(0, 50) + '...');
-    console.log('Available collections:', await mongoose.connection.db.listCollections().toArray());
+    console.log('Available collections:', await mongoose.default.connection.db.listCollections().toArray());
     
     const whopSdk = getWhopSdk();
     const { userId } = await whopSdk.verifyUserToken(await headers());
