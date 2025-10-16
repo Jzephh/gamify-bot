@@ -94,6 +94,9 @@ export default function AdminDashboard() {
     isActive: true
   });
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [showApprovalDialog, setShowApprovalDialog] = useState(false);
+  const [approvalTargetUser, setApprovalTargetUser] = useState<User | null>(null);
+  const [selectedMembershipId, setSelectedMembershipId] = useState<string>('');
 
   useEffect(() => {
     fetchUser();
@@ -326,6 +329,48 @@ export default function AdminDashboard() {
     }
   };
 
+  const openApprovalDialog = (user: User) => {
+    setApprovalTargetUser(user);
+    setSelectedMembershipId('');
+    setShowApprovalDialog(true);
+  };
+
+  const closeApprovalDialog = () => {
+    setShowApprovalDialog(false);
+    setApprovalTargetUser(null);
+    setSelectedMembershipId('');
+  };
+
+  // Grant membership directly if the user has no requestedMembership
+  const handleGrantMembership = async () => {
+    if (!approvalTargetUser || !selectedMembershipId) return;
+
+    try {
+      const response = await fetch('/api/admin/memberships', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: approvalTargetUser.userId,
+          membershipId: selectedMembershipId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: 'Membership granted successfully' });
+        closeApprovalDialog();
+        fetchUsers();
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Failed to grant membership' });
+      }
+    } catch {
+      setMessage({ type: 'error', text: 'Failed to grant membership' });
+    }
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
@@ -550,12 +595,12 @@ export default function AdminDashboard() {
                         {user.membershipStatus === 'pending' && (
                           <>
                             <IconButton
-                              onClick={() => handleApproveUser(user)}
-                              color="success"
+                              onClick={() => openApprovalDialog(user)}
+                              color="primary"
                               size="small"
-                              title="Approve Membership"
+                              title="Review Request"
                             >
-                              <CheckCircle />
+                              <Edit />
                             </IconButton>
                             <IconButton
                               onClick={() => handleRejectUser(user)}
@@ -706,6 +751,56 @@ export default function AdminDashboard() {
           <Button onClick={handleSaveUser} variant="contained" startIcon={<Save />}>
             Save
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Approval Dialog */}
+      <Dialog open={showApprovalDialog} onClose={closeApprovalDialog} maxWidth="sm" fullWidth>
+        <DialogTitle>Review Membership Request</DialogTitle>
+        <DialogContent>
+          {approvalTargetUser && (
+            <Box sx={{ mt: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <Avatar src={approvalTargetUser.avatarUrl} />
+                <Box>
+                  <Typography variant="h6">{approvalTargetUser.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">@{approvalTargetUser.username}</Typography>
+                </Box>
+              </Box>
+
+              {approvalTargetUser.requestedMembership ? (
+                <Box sx={{ p: 2, borderRadius: 1, bgcolor: 'action.hover' }}>
+                  <Typography variant="body1"><strong>Requested:</strong> {approvalTargetUser.requestedMembership.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">Duration: {approvalTargetUser.requestedMembership.duration} days</Typography>
+                </Box>
+              ) : (
+                <Box sx={{ mt: 2 }}>
+                  <Typography variant="body2" sx={{ mb: 1 }}>No request found. Select a membership to grant:</Typography>
+                  <TextField
+                    select
+                    fullWidth
+                    label="Membership"
+                    value={selectedMembershipId}
+                    onChange={(e) => setSelectedMembershipId(e.target.value)}
+                    SelectProps={{ native: true }}
+                  >
+                    <option value="">Select membership…</option>
+                    {memberships.map((m) => (
+                      <option key={m._id} value={m._id}>{m.name} — {m.duration} days</option>
+                    ))}
+                  </TextField>
+                </Box>
+              )}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeApprovalDialog} startIcon={<Cancel />}>Close</Button>
+          {approvalTargetUser?.requestedMembership ? (
+            <Button onClick={() => handleApproveUser(approvalTargetUser)} variant="contained" color="success" startIcon={<CheckCircle />}>Approve</Button>
+          ) : (
+            <Button onClick={handleGrantMembership} variant="contained" color="primary" disabled={!selectedMembershipId}>Grant</Button>
+          )}
         </DialogActions>
       </Dialog>
 
