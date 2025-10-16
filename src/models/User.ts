@@ -7,7 +7,8 @@ export interface IUser extends Document {
   name: string;
   avatarUrl: string;
   points: number;
-  freeTimeEarned: number;
+  freetimeStartDate?: Date;
+  freetimeEndDate?: Date;
   lastImageMessage: Date;
   roles: string[];
   stats: Record<string, unknown>;
@@ -22,7 +23,8 @@ const UserSchema = new Schema<IUser>({
   name: { type: String, default: '' },
   avatarUrl: { type: String, default: '' },
   points: { type: Number, default: 0 },
-  freeTimeEarned: { type: Number, default: 0 },
+  freetimeStartDate: { type: Date, default: null },
+  freetimeEndDate: { type: Date, default: null },
   lastImageMessage: { type: Date, default: null },
   roles: { type: [String], default: [] },
   stats: { type: Schema.Types.Mixed, default: {} },

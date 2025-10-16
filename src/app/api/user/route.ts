@@ -53,7 +53,8 @@ export async function GET() {
           roles: userData?.roles || [],
           stats: userData?.stats || {},
           points: 0,
-          freeTimeEarned: 0,
+          freetimeStartDate: null,
+          freetimeEndDate: null,
         });
       
       await user.save();
@@ -65,7 +66,8 @@ export async function GET() {
       name: user.name,
       avatarUrl: user.avatarUrl,
       points: user.points,
-      freeTimeEarned: user.freeTimeEarned,
+      freetimeStartDate: user.freetimeStartDate,
+      freetimeEndDate: user.freetimeEndDate,
     });
   } catch (error) {
     console.error('Error fetching user:', error);

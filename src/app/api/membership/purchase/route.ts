@@ -49,8 +49,22 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
     
-    // Deduct points
+    // Calculate free time dates
+    const now = new Date();
+    let freeTimeEndDate: Date;
+    
+    if (membershipType === '7days') {
+      freeTimeEndDate = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 days from now
+    } else if (membershipType === '1month') {
+      freeTimeEndDate = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000)); // 30 days from now
+    } else {
+      return NextResponse.json({ error: 'Invalid membership type' }, { status: 400 });
+    }
+    
+    // Update user with new free time and deduct points
     user.points -= cost;
+    user.freetimeStartDate = now;
+    user.freetimeEndDate = freeTimeEndDate;
     await user.save();
     
     // Here you would typically integrate with Whop's membership system
@@ -61,7 +75,9 @@ export async function POST(request: NextRequest) {
       message: `Successfully purchased ${membershipType} membership`,
       remainingPoints: user.points,
       membershipType,
-      cost
+      cost,
+      freetimeStartDate: user.freetimeStartDate,
+      freetimeEndDate: user.freetimeEndDate
     });
   } catch (error) {
     console.error('Error purchasing membership:', error);

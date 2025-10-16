@@ -25,7 +25,8 @@ interface User {
   name: string;
   avatarUrl: string;
   points: number;
-  freeTimeEarned: number;
+  freetimeStartDate?: string;
+  freetimeEndDate?: string;
 }
 
 export default function Dashboard() {
@@ -33,6 +34,25 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  // Helper function to check if user has active free time
+  const hasActiveFreeTime = (user: User) => {
+    if (!user.freetimeStartDate || !user.freetimeEndDate) return false;
+    const now = new Date();
+    const startDate = new Date(user.freetimeStartDate);
+    const endDate = new Date(user.freetimeEndDate);
+    return now >= startDate && now <= endDate;
+  };
+
+  // Helper function to get free time status text
+  const getFreeTimeStatus = (user: User) => {
+    if (!user.freetimeStartDate || !user.freetimeEndDate) return 'No Free Time';
+    const now = new Date();
+    const endDate = new Date(user.freetimeEndDate);
+    if (now > endDate) return 'Expired';
+    if (hasActiveFreeTime(user)) return 'Active';
+    return 'Pending';
+  };
 
   useEffect(() => {
     // Fetch user data - authentication is handled by Whop SDK in the API
@@ -152,10 +172,10 @@ export default function Dashboard() {
             </Paper>
             <Paper sx={{ p: 2, textAlign: 'center', flex: '1 1 200px', minWidth: '200px' }}>
               <Typography variant="h4" color="secondary">
-                {user.freeTimeEarned}
+                {getFreeTimeStatus(user)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Free Time Earned
+                Free Time Status
               </Typography>
             </Paper>
           </Box>
@@ -261,19 +281,6 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </Box>
-      </Box>
-
-      {/* Instructions */}
-      <Box sx={{ mt: 4, p: 3, bgcolor: 'grey.50', borderRadius: 2 }}>
-        <Typography variant="h6" gutterBottom>
-          How it works:
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          1. Earn points by participating in the community (posting images, etc.)<br/>
-          2. Use your points to purchase free memberships<br/>
-          3. Memberships give you access to premium features<br/>
-          4. Points are automatically deducted when you make a purchase
-        </Typography>
       </Box>
     </Container>
   );
