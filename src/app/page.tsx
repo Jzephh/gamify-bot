@@ -201,8 +201,7 @@ export default function Dashboard() {
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Box />
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 2, position: 'relative' }}>
           <Typography variant="h3" component="h1">
             Membership Dashboard
           </Typography>
@@ -212,7 +211,11 @@ export default function Dashboard() {
               color="secondary"
               startIcon={<AdminPanelSettings />}
               href="/admin"
-              sx={{ minWidth: 'auto' }}
+              sx={{ 
+                minWidth: 'auto',
+                position: 'absolute',
+                right: 0
+              }}
             >
               Admin
             </Button>
