@@ -368,36 +368,35 @@ export default function AdminDashboard() {
         </Card>
       </Box>
 
-      {/* Tabs */}
-      <Card sx={{ mb: 4 }}>
-        <Tabs 
-          value={activeTab} 
-          onChange={(e, newValue) => setActiveTab(newValue)}
-          sx={{ borderBottom: 1, borderColor: 'divider' }}
-        >
-          <Tab 
-            icon={<Group />} 
-            label="Users" 
-            iconPosition="start"
-            sx={{ textTransform: 'none' }}
-          />
-          <Tab 
-            icon={<Star />} 
-            label="Memberships" 
-            iconPosition="start"
-            sx={{ textTransform: 'none' }}
-          />
-          <Tab 
-            icon={<Settings />} 
-            label="Settings" 
-            iconPosition="start"
-            sx={{ textTransform: 'none' }}
-          />
-        </Tabs>
-      </Card>
+      {/* Main Content with Sidebar */}
+      <Box sx={{ display: 'flex', gap: 3 }}>
+        {/* Left Sidebar - Tabs */}
+        <Card sx={{ width: 250, height: 'fit-content' }}>
+          <Tabs 
+            value={activeTab} 
+            onChange={(e, newValue) => setActiveTab(newValue)}
+            orientation="vertical"
+            sx={{ borderRight: 1, borderColor: 'divider', minHeight: 400 }}
+          >
+            <Tab 
+              icon={<Group />} 
+              label="Users" 
+              iconPosition="start"
+              sx={{ textTransform: 'none', justifyContent: 'flex-start', px: 3 }}
+            />
+            <Tab 
+              icon={<Star />} 
+              label="Memberships" 
+              iconPosition="start"
+              sx={{ textTransform: 'none', justifyContent: 'flex-start', px: 3 }}
+            />
+          </Tabs>
+        </Card>
 
-      {/* Tab Content */}
-      {activeTab === 0 && (
+        {/* Right Content */}
+        <Box sx={{ flex: 1 }}>
+          {/* Tab Content */}
+          {activeTab === 0 && (
         <Card sx={{ mb: 4 }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
@@ -410,6 +409,8 @@ export default function AdminDashboard() {
                   <TableCell>User</TableCell>
                   <TableCell>Points</TableCell>
                   <TableCell>Free Time Status</TableCell>
+                  <TableCell>Start Date</TableCell>
+                  <TableCell>Expire Date</TableCell>
                   <TableCell>Roles</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
@@ -445,6 +446,16 @@ export default function AdminDashboard() {
                         }
                         size="small"
                       />
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2">
+                        {user.freetimeStartDate ? formatDate(user.freetimeStartDate) : 'N/A'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2">
+                        {user.freetimeEndDate ? formatDate(user.freetimeEndDate) : 'N/A'}
+                      </Typography>
                     </TableCell>
                     <TableCell>
                       {user.roles?.map((role) => (
@@ -557,60 +568,60 @@ export default function AdminDashboard() {
         </CardContent>
         </Card>
       )}
+        </Box>
+      </Box>
 
-      {/* Settings Tab */}
-      {activeTab === 2 && (
-        <Card sx={{ mb: 4 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              System Settings
-            </Typography>
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 3 }}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Company Information
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    Manage your company settings and configuration
-                  </Typography>
-                  <Button variant="outlined" startIcon={<Settings />}>
-                    Configure Company
-                  </Button>
-                </CardContent>
-              </Card>
-              
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Database Management
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    View database statistics and perform maintenance
-                  </Typography>
-                  <Button variant="outlined" startIcon={<AdminPanelSettings />}>
-                    Database Tools
-                  </Button>
-                </CardContent>
-              </Card>
-              
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    System Logs
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    View system logs and activity history
-                  </Typography>
-                  <Button variant="outlined" startIcon={<People />}>
-                    View Logs
-                  </Button>
-                </CardContent>
-              </Card>
-            </Box>
-          </CardContent>
-        </Card>
-      )}
+      {/* System Settings - Always Visible */}
+      <Card sx={{ mb: 4 }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            System Settings
+          </Typography>
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 3 }}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Company Information
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Manage your company settings and configuration
+                </Typography>
+                <Button variant="outlined" startIcon={<Settings />}>
+                  Configure Company
+                </Button>
+              </CardContent>
+            </Card>
+            
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Database Management
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  View database statistics and perform maintenance
+                </Typography>
+                <Button variant="outlined" startIcon={<AdminPanelSettings />}>
+                  Database Tools
+                </Button>
+              </CardContent>
+            </Card>
+            
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  System Logs
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  View system logs and activity history
+                </Typography>
+                <Button variant="outlined" startIcon={<People />}>
+                  View Logs
+                </Button>
+              </CardContent>
+            </Card>
+          </Box>
+        </CardContent>
+      </Card>
 
       {/* Edit User Dialog */}
       <Dialog open={showEditDialog} onClose={() => setShowEditDialog(false)} maxWidth="sm" fullWidth>
