@@ -38,7 +38,8 @@ import {
   People,
   Star,
   Settings,
-  Group
+  Group,
+  CheckCircle,
 } from '@mui/icons-material';
 
 interface User {
