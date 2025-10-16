@@ -221,13 +221,6 @@ export default function Dashboard() {
             </Button>
           )}
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-          <Star sx={{ color: '#FFD700', fontSize: 24 }} />
-          <Typography variant="subtitle1" color="text.secondary" sx={{ fontWeight: 'bold' }}>
-            Post success to earn points
-        </Typography>
-          <Star sx={{ color: '#FFD700', fontSize: 24 }} />
-        </Box>
       </Box>
 
       {/* Admin Dashboard Card */}
@@ -352,27 +345,24 @@ export default function Dashboard() {
               borderRadius: '16px'
             }}>
               <Box sx={{ mb: 2 }}>
-                <Chip
-                  label={getFreeTimeStatus(user)}
-                  color={
-                    getFreeTimeStatus(user) === 'Active' ? 'success' :
-                    getFreeTimeStatus(user) === 'Expired' ? 'error' :
-                    getFreeTimeStatus(user) === 'Pending Approval' ? 'warning' :
-                    getFreeTimeStatus(user) === 'Rejected' ? 'error' :
-                    getFreeTimeStatus(user) === 'Pending' ? 'info' : 'default'
-                  }
+                {/* <Chip
+                  label="Post success to earn points"
+                  color="primary"
                   size="medium"
                   sx={{ 
                     fontSize: '1.1rem', 
                     py: 1.5,
                     px: 2,
                     fontWeight: 'bold',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                    background: 'linear-gradient(45deg, #FFD700, #FFA500)',
+                    color: 'white'
                   }}
-                />
+                /> */}
               </Box>
               <Typography variant="h6" sx={{ opacity: 0.9 }}>
-                Membership Status
+                Post success to earn points
+                <img src="/logo.png" alt="Logo" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
               </Typography>
             </Paper>
           </Box>
