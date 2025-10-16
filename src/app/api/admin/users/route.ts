@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { User } from '@/models/User';
+import { Membership } from '@/models/Membership';
 import { getWhopSdk } from '@/lib/whop';
 import { headers } from 'next/headers';
 
@@ -24,8 +25,31 @@ export async function GET() {
     
     // Get all users
     const users = await User.find({ companyId }).sort({ createdAt: -1 });
-    
-    return NextResponse.json(users);
+
+    // Resolve requestedMembership for each user if requestedMembershipId exists
+    const populatedUsers = await Promise.all(users.map(async (u) => {
+      let requestedMembership = null;
+      if (u.requestedMembershipId) {
+        try {
+          const m = await Membership.findById(u.requestedMembershipId);
+          if (m) {
+            requestedMembership = {
+              _id: m._id.toString(),
+              name: m.name,
+              duration: m.duration,
+              cost: m.cost
+            };
+          }
+        } catch {}
+      }
+      // Add requestedMembership to each user
+      return {
+        ...u.toObject(),
+        requestedMembership,
+      };
+    }));
+
+    return NextResponse.json(populatedUsers);
   } catch (error) {
     console.error('Error fetching users:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

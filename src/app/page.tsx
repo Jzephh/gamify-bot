@@ -415,26 +415,6 @@ export default function Dashboard() {
                 Share your achievements and earn rewards
               </Typography>
             </Paper>
-            {user.requestedMembershipId && (
-              <Paper sx={{
-                p: 3,
-                textAlign: 'center',
-                flex: '1 1 250px',
-                minWidth: '250px',
-                background: 'rgba(255,255,255,0.15)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                borderRadius: '16px'
-              }}>
-                <Typography variant="h6" sx={{ mb: 1, fontWeight: 'bold' }}>
-                  Redeemed Membership
-                </Typography>
-                <Typography variant="body1">
-                  {user.requestedMembership?.name ?? memberships.find(m => m._id === user.requestedMembershipId)?.name ?? 'Membership'} — {user.requestedMembership?.duration ?? memberships.find(m => m._id === user.requestedMembershipId)?.duration ?? '?'} days
-                </Typography>
-                <Chip label={user.membershipStatus.toUpperCase()} size="small" sx={{ mt: 1 }} />
-              </Paper>
-            )}
           </Box>
         </CardContent>
       </Card>
