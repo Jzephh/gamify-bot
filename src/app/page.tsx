@@ -344,25 +344,60 @@ export default function Dashboard() {
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '16px'
             }}>
-              <Box sx={{ mb: 2 }}>
-                {/* <Chip
-                  label="Post success to earn points"
-                  color="primary"
-                  size="medium"
+              <Box sx={{ 
+                mb: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)',
+                borderRadius: '20px',
+                py: 2,
+                px: 3,
+                boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                position: 'relative',
+                overflow: 'hidden',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: '-100%',
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                  animation: 'shimmer 2s infinite',
+                },
+                '@keyframes shimmer': {
+                  '0%': { left: '-100%' },
+                  '100%': { left: '100%' }
+                }
+              }}>
+                <img 
+                  src="/logo.png" 
+                  alt="Logo" 
+                  style={{ 
+                    width: '24px', 
+                    height: '24px', 
+                    objectFit: 'contain',
+                    marginRight: '12px',
+                    filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.8))'
+                  }} 
+                />
+                <Typography 
+                  variant="h6" 
                   sx={{ 
-                    fontSize: '1.1rem', 
-                    py: 1.5,
-                    px: 2,
+                    color: 'white',
                     fontWeight: 'bold',
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                    background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                    color: 'white'
+                    fontSize: '1.2rem',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                    letterSpacing: '0.5px'
                   }}
-                /> */}
+                >
+                  Post success to earn points
+              </Typography>
               </Box>
-              <Typography variant="h6" sx={{ opacity: 0.9 }}>
-                Post success to earn points
-                <img src="/logo.png" alt="Logo" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
+              <Typography variant="body1" sx={{ opacity: 0.8, textAlign: 'center', fontStyle: 'italic' }}>
+                Share your achievements and earn rewards
               </Typography>
             </Paper>
           </Box>
