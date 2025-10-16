@@ -347,64 +347,82 @@ export default function Dashboard() {
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '16px'
-            }}>
-              <Box sx={{ 
-                mb: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'linear-gradient(135deg, #7B2CBF 0%, #9D4EDD 40%, #C77DFF 70%, #F72585 100%)',
-                borderRadius: '20px',
-                py: 2,
-                px: 3,
-                boxShadow: '0 10px 30px rgba(199, 125, 255, 0.35), 0 0 30px rgba(247, 37, 133, 0.25)',
-                border: '1px solid rgba(199, 125, 255, 0.6)',
-                position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: 0,
-                  left: '-60%',
-                  width: '40%',
-                  height: '100%',
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)',
-                  filter: 'blur(6px)',
-                  animation: 'shimmerPink 2.2s infinite',
-                },
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'radial-gradient(1200px 200px at -20% 120%, rgba(247,37,133,0.25), transparent 60%), radial-gradient(800px 200px at 120% -20%, rgba(103,58,183,0.3), transparent 60%)',
-                  pointerEvents: 'none'
-                },
-                '@keyframes shimmerPink': {
-                  '0%': { left: '-60%' },
-                  '100%': { left: '120%' }
-                }
-              }}>
-                <AutoAwesome 
-                  sx={{ 
-                    fontSize: 24,
-                    color: '#F72585',
-                    mr: 1.5,
-                    filter: 'drop-shadow(0 0 10px rgba(247, 37, 133, 0.8))'
-                  }}
-                />
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    color: '#fff',
-                    fontWeight: 'bold',
-                    fontSize: '1.2rem',
-                    textShadow: '0 2px 8px rgba(156, 39, 176, 0.6), 0 0 12px rgba(247, 37, 133, 0.45)',
-                    letterSpacing: '0.5px'
-                  }}
-                >
-                  Post success to earn points
-              </Typography>
-              </Box>
+            }}
+            >
+              <a
+                href="https://whop.com/experiences/exp_xAK4jZFtFFMGzB"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  textDecoration: 'none',
+                  display: 'flex'
+                }}
+              >
+                <Box sx={{
+                  mb: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'linear-gradient(135deg, #7B2CBF 0%, #9D4EDD 40%, #C77DFF 70%, #F72585 100%)',
+                  borderRadius: '20px',
+                  py: 2,
+                  px: 3,
+                  boxShadow: '0 10px 30px rgba(199, 125, 255, 0.35), 0 0 30px rgba(247, 37, 133, 0.25)',
+                  border: '1px solid rgba(199, 125, 255, 0.6)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  transition: 'transform 0.18s, box-shadow 0.18s',
+                  '&:hover': {
+                    filter: 'brightness(1.12)',
+                    boxShadow: '0 12px 40px 2px #C77DFF, 0 0 30px #F72585',
+                    transform: 'scale(1.035)'
+                  },
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-60%',
+                    width: '40%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)',
+                    filter: 'blur(6px)',
+                    animation: 'shimmerPink 2.2s infinite',
+                  },
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'radial-gradient(1200px 200px at -20% 120%, rgba(247,37,133,0.25), transparent 60%), radial-gradient(800px 200px at 120% -20%, rgba(103,58,183,0.3), transparent 60%)',
+                    pointerEvents: 'none'
+                  },
+                  '@keyframes shimmerPink': {
+                    '0%': { left: '-60%' },
+                    '100%': { left: '120%' }
+                  }
+                }}>
+                  <AutoAwesome 
+                    sx={{ 
+                      fontSize: 24,
+                      color: '#F72585',
+                      mr: 1.5,
+                      filter: 'drop-shadow(0 0 10px rgba(247, 37, 133, 0.8))'
+                    }}
+                  />
+                  <Typography 
+                    variant="h6" 
+                    sx={{ 
+                      color: '#fff',
+                      fontWeight: 'bold',
+                      fontSize: '1.2rem',
+                      textShadow: '0 2px 8px rgba(156, 39, 176, 0.6), 0 0 12px rgba(247, 37, 133, 0.45)',
+                      letterSpacing: '0.5px'
+                    }}
+                  >
+                    Post success to earn points
+                  </Typography>
+                </Box>
+              </a>
               <Typography variant="body1" sx={{ opacity: 0.85, textAlign: 'center', fontStyle: 'italic', color: 'rgba(255,255,255,0.9)' }}>
                 Share your achievements and earn rewards
               </Typography>
