@@ -215,6 +215,43 @@ export default function Dashboard() {
         </Typography>
       </Box>
 
+      {/* Admin Dashboard Card */}
+      {isAdmin(user) && (
+        <Card sx={{ mb: 4, background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)' }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <AdminPanelSettings sx={{ fontSize: 32, mr: 2, color: 'white' }} />
+                <Box>
+                  <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold' }}>
+                    Admin Dashboard
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
+                    Manage users, memberships, and system settings
+                  </Typography>
+                </Box>
+              </Box>
+              <Button
+                variant="contained"
+                color="inherit"
+                size="large"
+                startIcon={<AdminPanelSettings />}
+                href="/admin"
+                sx={{ 
+                  backgroundColor: 'rgba(255,255,255,0.2)',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255,255,255,0.3)',
+                  }
+                }}
+              >
+                Go to Admin Dashboard
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      )}
+
       {/* User Info Card */}
       <Card sx={{ mb: 4 }}>
         <CardContent>

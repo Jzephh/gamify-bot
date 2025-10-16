@@ -100,6 +100,7 @@ export async function GET() {
           freetimeStartDate: null,
           freetimeEndDate: null,
         });
+        
       
       await user.save();
     }
@@ -112,6 +113,8 @@ export async function GET() {
       points: user.points,
       freetimeStartDate: user.freetimeStartDate,
       freetimeEndDate: user.freetimeEndDate,
+      roles: user.roles,
+      stats: user.stats,
     });
   } catch (error) {
     console.error('Error fetching user:', error);
