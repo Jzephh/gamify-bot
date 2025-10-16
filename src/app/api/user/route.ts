@@ -32,9 +32,9 @@ export async function GET() {
     }
     
     let user = await User.findOne({ userId, companyId });
-    console.log('Found user:', user ? { userId: user.userId, companyId: user.companyId, points: user.points } : 'No user found');
+    console.log('Found user by userId/companyId:', user ? { userId: user.userId, companyId: user.companyId, points: user.points } : 'No user found');
     
-    // If no user found by userId/companyId, try to find by username from Whop data
+    // If no user found by userId/companyId, try multiple fallback methods
     if (!user) {
       try {
         const whopSdk = getWhopSdk();
@@ -51,6 +51,34 @@ export async function GET() {
             user.userId = userId;
             await user.save();
             console.log('Updated user userId to:', userId);
+          }
+        }
+        
+        // If still not found, try to find by username only (in case companyId is different)
+        if (!user && userData?.username) {
+          user = await User.findOne({ username: userData.username });
+          console.log('Found user by username only:', user ? { username: user.username, points: user.points } : 'No user found by username only');
+          
+          // If found, update both userId and companyId
+          if (user) {
+            user.userId = userId;
+            user.companyId = companyId;
+            await user.save();
+            console.log('Updated user userId and companyId');
+          }
+        }
+        
+        // If still not found, try to find any user with the same username (last resort)
+        if (!user && userData?.username) {
+          const allUsers = await User.find({ username: userData.username });
+          console.log('All users with username:', allUsers.map(u => ({ username: u.username, userId: u.userId, companyId: u.companyId, points: u.points })));
+          
+          if (allUsers.length > 0) {
+            user = allUsers[0]; // Take the first one
+            user.userId = userId;
+            user.companyId = companyId;
+            await user.save();
+            console.log('Updated first user with matching username');
           }
         }
       } catch (error) {
@@ -86,7 +114,7 @@ export async function GET() {
       await user.save();
     }
     
-    return NextResponse.json({
+    const response = {
       userId: user.userId,
       username: user.username,
       name: user.name,
@@ -94,7 +122,10 @@ export async function GET() {
       points: user.points,
       freetimeStartDate: user.freetimeStartDate,
       freetimeEndDate: user.freetimeEndDate,
-    });
+    };
+    
+    console.log('Final API response:', response);
+    return NextResponse.json(response);
   } catch (error) {
     console.error('Error fetching user:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
