@@ -349,54 +349,59 @@ export default function Dashboard() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%)',
+                background: 'linear-gradient(135deg, #7B2CBF 0%, #9D4EDD 40%, #C77DFF 70%, #F72585 100%)',
                 borderRadius: '20px',
                 py: 2,
                 px: 3,
-                boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
+                boxShadow: '0 10px 30px rgba(199, 125, 255, 0.35), 0 0 30px rgba(247, 37, 133, 0.25)',
+                border: '1px solid rgba(199, 125, 255, 0.6)',
                 position: 'relative',
                 overflow: 'hidden',
                 '&::before': {
                   content: '""',
                   position: 'absolute',
                   top: 0,
-                  left: '-100%',
-                  width: '100%',
+                  left: '-60%',
+                  width: '40%',
                   height: '100%',
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
-                  animation: 'shimmer 2s infinite',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent)',
+                  filter: 'blur(6px)',
+                  animation: 'shimmerPink 2.2s infinite',
                 },
-                '@keyframes shimmer': {
-                  '0%': { left: '-100%' },
-                  '100%': { left: '100%' }
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'radial-gradient(1200px 200px at -20% 120%, rgba(247,37,133,0.25), transparent 60%), radial-gradient(800px 200px at 120% -20%, rgba(103,58,183,0.3), transparent 60%)',
+                  pointerEvents: 'none'
+                },
+                '@keyframes shimmerPink': {
+                  '0%': { left: '-60%' },
+                  '100%': { left: '120%' }
                 }
               }}>
-                <img 
-                  src="/logo.png" 
-                  alt="Logo" 
-                  style={{ 
-                    width: '24px', 
-                    height: '24px', 
-                    objectFit: 'contain',
-                    marginRight: '12px',
-                    filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.8))'
-                  }} 
+                <Star 
+                  sx={{ 
+                    fontSize: 24,
+                    color: '#F72585',
+                    mr: 1.5,
+                    filter: 'drop-shadow(0 0 10px rgba(247, 37, 133, 0.8))'
+                  }}
                 />
                 <Typography 
                   variant="h6" 
                   sx={{ 
-                    color: 'white',
+                    color: '#fff',
                     fontWeight: 'bold',
                     fontSize: '1.2rem',
-                    textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                    textShadow: '0 2px 8px rgba(156, 39, 176, 0.6), 0 0 12px rgba(247, 37, 133, 0.45)',
                     letterSpacing: '0.5px'
                   }}
                 >
                   Post success to earn points
               </Typography>
               </Box>
-              <Typography variant="body1" sx={{ opacity: 0.8, textAlign: 'center', fontStyle: 'italic' }}>
+              <Typography variant="body1" sx={{ opacity: 0.85, textAlign: 'center', fontStyle: 'italic', color: 'rgba(255,255,255,0.9)' }}>
                 Share your achievements and earn rewards
               </Typography>
             </Paper>
@@ -420,65 +425,65 @@ export default function Dashboard() {
           {memberships.map((membership, index) => {
             // Generate holographic color schemes for each membership card
             const holographicSchemes = [
-              { 
-                bg: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff8a80 100%)', 
-                shadow: 'rgba(255, 107, 107, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(255, 107, 107, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #240046 0%, #3C096C 40%, #7B2CBF 70%, #C77DFF 100%)',
+                shadow: 'rgba(124, 44, 191, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(199, 125, 255, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 50%, #80e5d4 100%)', 
-                shadow: 'rgba(78, 205, 196, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(78, 205, 196, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #3A0CA3 0%, #7209B7 50%, #B5179E 100%)',
+                shadow: 'rgba(181, 23, 158, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(247, 37, 133, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #9c88ff 100%)', 
-                shadow: 'rgba(102, 126, 234, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(102, 126, 234, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #4C1D95 0%, #6D28D9 50%, #A855F7 100%)',
+                shadow: 'rgba(168, 85, 247, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(168, 85, 247, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ff9a9e 100%)', 
-                shadow: 'rgba(240, 147, 251, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(240, 147, 251, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #5A189A 0%, #9D4EDD 50%, #F72585 100%)',
+                shadow: 'rgba(157, 78, 221, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(247, 37, 133, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #80d8ff 100%)', 
-                shadow: 'rgba(79, 172, 254, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(79, 172, 254, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #2D0057 0%, #5E239D 50%, #B5179E 100%)',
+                shadow: 'rgba(94, 35, 157, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(181, 23, 158, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 50%, #80f5d4 100%)', 
-                shadow: 'rgba(67, 233, 123, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(67, 233, 123, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #3B0D68 0%, #7B2CBF 60%, #DE38C8 100%)',
+                shadow: 'rgba(123, 44, 191, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(222, 56, 200, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 50%, #ffb74d 100%)', 
-                shadow: 'rgba(250, 112, 154, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(250, 112, 154, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #4C0070 0%, #8E05C2 50%, #FF4BCD 100%)',
+                shadow: 'rgba(142, 5, 194, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(255, 75, 205, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #f8bbd9 100%)', 
-                shadow: 'rgba(168, 237, 234, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(168, 237, 234, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #1B1035 0%, #5E2B97 50%, #C77DFF 100%)',
+                shadow: 'rgba(94, 43, 151, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(199, 125, 255, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffb3ba 100%)', 
-                shadow: 'rgba(255, 154, 158, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(255, 154, 158, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #2C0140 0%, #7A0BC0 50%, #F72585 100%)',
+                shadow: 'rgba(122, 11, 192, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(247, 37, 133, 0.7)'
               },
-              { 
-                bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ffd54f 100%)', 
-                shadow: 'rgba(255, 236, 210, 0.4)',
-                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
-                glow: 'rgba(255, 236, 210, 0.6)'
+              {
+                bg: 'linear-gradient(135deg, #20003A 0%, #6A11CB 50%, #C471ED 100%)',
+                shadow: 'rgba(106, 17, 203, 0.45)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)',
+                glow: 'rgba(196, 113, 237, 0.7)'
               }
             ];
           
@@ -562,19 +567,9 @@ export default function Dashboard() {
                     borderRadius: '50%',
                     background: 'rgba(255,255,255,0.2)',
                     mb: 2,
-                    overflow: 'hidden',
                     border: '2px solid rgba(255,255,255,0.3)'
                   }}>
-                    <img 
-                      src="/logo.png" 
-                      alt="Logo" 
-                      style={{ 
-                        width: '60px', 
-                        height: '60px', 
-                        objectFit: 'contain',
-                        filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.5))'
-                      }} 
-                    />
+                    <Star sx={{ fontSize: 42, color: '#C77DFF', filter: 'drop-shadow(0 0 12px rgba(199,125,255,0.8))' }} />
                   </Box>
                   <Typography variant="h4" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                     {membership.name}
@@ -589,17 +584,7 @@ export default function Dashboard() {
                     mb: 2,
                     border: '1px solid rgba(255,255,255,0.3)'
                   }}>
-                    <img 
-                      src="/logo.png" 
-                      alt="Logo" 
-                      style={{ 
-                        width: '20px', 
-                        height: '20px', 
-                        objectFit: 'contain',
-                        marginRight: '8px',
-                        filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.5))'
-                      }} 
-                    />
+                    <Star sx={{ fontSize: 20, mr: 1, color: '#F72585' }} />
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                       {membership.cost} Points
                 </Typography>
@@ -617,7 +602,7 @@ export default function Dashboard() {
                   size="large"
                     disabled={user.points < membership.cost || purchasing === membership._id}
                     onClick={() => purchaseMembership(membership._id)}
-                    startIcon={purchasing === membership._id ? <CircularProgress size={20} /> : <img src="/logo.png" alt="Logo" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />}
+                    startIcon={purchasing === membership._id ? <CircularProgress size={20} /> : <StarBorder />}
                     sx={{
                       background: 'rgba(255,255,255,0.2)',
                       color: 'white',
