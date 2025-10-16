@@ -351,6 +351,7 @@ export default function Dashboard() {
             >
               <a
                 href="https://whop.com/joined/emoney-fa02/success-xAK4jZFtFFMGzB/app/"
+                target="_parent"
                 rel="noopener noreferrer"
                 style={{
                   textDecoration: 'none',
