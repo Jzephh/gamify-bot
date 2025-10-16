@@ -203,8 +203,8 @@ export default function Dashboard() {
       <Box sx={{ textAlign: 'center', mb: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 2, position: 'relative' }}>
           <Typography variant="h3" component="h1">
-            Membership Dashboard
-          </Typography>
+          Membership Dashboard
+        </Typography>
           {isAdmin(user) && (
             <Button
               variant="contained"
@@ -221,15 +221,19 @@ export default function Dashboard() {
             </Button>
           )}
         </Box>
-        <Typography variant="subtitle1" color="text.secondary">
-          Use your points to purchase memberships
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+          <Star sx={{ color: '#FFD700', fontSize: 24 }} />
+          <Typography variant="subtitle1" color="text.secondary" sx={{ fontWeight: 'bold' }}>
+            Post success to earn points
         </Typography>
+          <Star sx={{ color: '#FFD700', fontSize: 24 }} />
+        </Box>
       </Box>
 
       {/* Admin Dashboard Card */}
       {isAdmin(user) && (
         <Card sx={{ mb: 4, background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)' }}>
-          <CardContent>
+        <CardContent>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <AdminPanelSettings sx={{ fontSize: 32, mr: 2, color: 'white' }} />
@@ -330,8 +334,8 @@ export default function Dashboard() {
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
                 <Star sx={{ fontSize: 32, mr: 1, color: '#FFD700' }} />
                 <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#FFD700' }}>
-                  {user.points}
-                </Typography>
+                {user.points}
+              </Typography>
               </Box>
               <Typography variant="h6" sx={{ opacity: 0.9 }}>
                 Points Available
@@ -387,23 +391,73 @@ export default function Dashboard() {
       )}
 
       {/* Membership Options */}
-      <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
-        {memberships.map((membership, index) => {
-          // Generate random colors for each membership card
-          const colorSchemes = [
-            { bg: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)', shadow: 'rgba(255, 107, 107, 0.3)' },
-            { bg: 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)', shadow: 'rgba(78, 205, 196, 0.3)' },
-            { bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', shadow: 'rgba(102, 126, 234, 0.3)' },
-            { bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', shadow: 'rgba(240, 147, 251, 0.3)' },
-            { bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', shadow: 'rgba(79, 172, 254, 0.3)' },
-            { bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', shadow: 'rgba(67, 233, 123, 0.3)' },
-            { bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', shadow: 'rgba(250, 112, 154, 0.3)' },
-            { bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', shadow: 'rgba(168, 237, 234, 0.3)' },
-            { bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', shadow: 'rgba(255, 154, 158, 0.3)' },
-            { bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', shadow: 'rgba(255, 236, 210, 0.3)' }
-          ];
+        <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
+          {memberships.map((membership, index) => {
+            // Generate holographic color schemes for each membership card
+            const holographicSchemes = [
+              { 
+                bg: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff8a80 100%)', 
+                shadow: 'rgba(255, 107, 107, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(255, 107, 107, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 50%, #80e5d4 100%)', 
+                shadow: 'rgba(78, 205, 196, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(78, 205, 196, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #9c88ff 100%)', 
+                shadow: 'rgba(102, 126, 234, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(102, 126, 234, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ff9a9e 100%)', 
+                shadow: 'rgba(240, 147, 251, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(240, 147, 251, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #80d8ff 100%)', 
+                shadow: 'rgba(79, 172, 254, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(79, 172, 254, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 50%, #80f5d4 100%)', 
+                shadow: 'rgba(67, 233, 123, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(67, 233, 123, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 50%, #ffb74d 100%)', 
+                shadow: 'rgba(250, 112, 154, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(250, 112, 154, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #f8bbd9 100%)', 
+                shadow: 'rgba(168, 237, 234, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(168, 237, 234, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffb3ba 100%)', 
+                shadow: 'rgba(255, 154, 158, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(255, 154, 158, 0.6)'
+              },
+              { 
+                bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ffd54f 100%)', 
+                shadow: 'rgba(255, 236, 210, 0.4)',
+                shimmer: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)',
+                glow: 'rgba(255, 236, 210, 0.6)'
+              }
+            ];
           
-          const colorScheme = colorSchemes[index % colorSchemes.length];
+          const holographicScheme = holographicSchemes[index % holographicSchemes.length];
           
           return (
             <Box key={membership._id} sx={{ flex: '1 1 350px', minWidth: '350px', maxWidth: '400px' }}>
@@ -411,17 +465,46 @@ export default function Dashboard() {
                 height: '100%', 
                 display: 'flex', 
                 flexDirection: 'column',
-                background: colorScheme.bg,
+                background: holographicScheme.bg,
                 color: 'white',
                 position: 'relative',
                 overflow: 'hidden',
                 borderRadius: '24px',
-                boxShadow: `0 20px 40px ${colorScheme.shadow}`,
-                transition: 'all 0.3s ease',
+                boxShadow: `0 20px 40px ${holographicScheme.shadow}, 0 0 20px ${holographicScheme.glow}`,
+                border: `1px solid ${holographicScheme.glow}`,
+                transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                 '&:hover': {
-                  transform: 'translateY(-8px)',
-                  boxShadow: `0 30px 60px ${colorScheme.shadow.replace('0.3', '0.4')}`
-                }
+                  transform: 'perspective(1000px) rotateX(5deg) translateY(-10px)',
+                  boxShadow: `0 30px 60px ${holographicScheme.shadow}, 0 0 30px ${holographicScheme.glow}`,
+                },
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: holographicScheme.shimmer,
+                  opacity: 0,
+                  transition: 'opacity 0.3s ease',
+                  pointerEvents: 'none',
+                  zIndex: 1,
+                },
+                '&:hover::before': {
+                  opacity: 1,
+                },
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  top: '-2px',
+                  left: '-2px',
+                  right: '-2px',
+                  bottom: '-2px',
+                  background: `linear-gradient(45deg, ${holographicScheme.glow}, transparent, ${holographicScheme.glow})`,
+                  borderRadius: 'inherit',
+                  zIndex: -1,
+                  opacity: 0.7,
+                },
               }}>
               {/* Decorative Elements */}
               <Box sx={{
@@ -453,9 +536,20 @@ export default function Dashboard() {
                     height: 80,
                     borderRadius: '50%',
                     background: 'rgba(255,255,255,0.2)',
-                    mb: 2
+                    mb: 2,
+                    overflow: 'hidden',
+                    border: '2px solid rgba(255,255,255,0.3)'
                   }}>
-                    <Star sx={{ fontSize: 40, color: '#FFD700' }} />
+                    <img 
+                      src="/logo.png" 
+                      alt="Logo" 
+                      style={{ 
+                        width: '60px', 
+                        height: '60px', 
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.5))'
+                      }} 
+                    />
                   </Box>
                   <Typography variant="h4" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                     {membership.name}
@@ -467,27 +561,38 @@ export default function Dashboard() {
                     borderRadius: '25px',
                     px: 3,
                     py: 1,
-                    mb: 2
+                    mb: 2,
+                    border: '1px solid rgba(255,255,255,0.3)'
                   }}>
-                    <Star sx={{ fontSize: 20, mr: 1, color: '#FFD700' }} />
+                    <img 
+                      src="/logo.png" 
+                      alt="Logo" 
+                      style={{ 
+                        width: '20px', 
+                        height: '20px', 
+                        objectFit: 'contain',
+                        marginRight: '8px',
+                        filter: 'drop-shadow(0 0 5px rgba(255,255,255,0.5))'
+                      }} 
+                    />
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                       {membership.cost} Points
-                    </Typography>
+                </Typography>
                   </Box>
-                </Box>
-                
+              </Box>
+              
                 <Typography variant="body1" sx={{ mb: 4, opacity: 0.9, lineHeight: 1.6 }}>
                   {membership.description}
-                </Typography>
-                
-                <Box sx={{ mt: 'auto' }}>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    size="large"
+              </Typography>
+              
+              <Box sx={{ mt: 'auto' }}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  size="large"
                     disabled={user.points < membership.cost || purchasing === membership._id}
                     onClick={() => purchaseMembership(membership._id)}
-                    startIcon={purchasing === membership._id ? <CircularProgress size={20} /> : <StarBorder />}
+                    startIcon={purchasing === membership._id ? <CircularProgress size={20} /> : <img src="/logo.png" alt="Logo" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />}
                     sx={{
                       background: 'rgba(255,255,255,0.2)',
                       color: 'white',
@@ -510,8 +615,8 @@ export default function Dashboard() {
                     }}
                   >
                     {purchasing === membership._id ? 'Processing...' : `Get ${membership.name}`}
-                  </Button>
-                  
+                </Button>
+                
                   {user.points < membership.cost && (
                     <Box sx={{
                       mt: 2,
@@ -522,13 +627,13 @@ export default function Dashboard() {
                     }}>
                       <Typography variant="body2" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
                         You need {membership.cost - user.points} more points to unlock this!
-                      </Typography>
+                  </Typography>
                     </Box>
-                  )}
-                </Box>
-              </CardContent>
-            </Card>
-          </Box>
+                )}
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
           );
         })}
       </Box>
@@ -568,19 +673,19 @@ export default function Dashboard() {
                 <Typography variant="body2" color="text.secondary">
                   Valid from {new Date(purchaseDetails.freetimeStartDate || '').toLocaleDateString()} 
                   {' '}to {new Date(purchaseDetails.freetimeEndDate || '').toLocaleDateString()}
-                </Typography>
+              </Typography>
               </Box>
               
               <Box sx={{ mt: 2, p: 2, bgcolor: 'info.light', borderRadius: 1 }}>
                 <Typography variant="body2">
                   <strong>Remaining Points:</strong> {purchaseDetails.remainingPoints}
-                </Typography>
+                  </Typography>
               </Box>
               
               <Typography variant="body2" sx={{ mt: 2, fontStyle: 'italic' }}>
                 You now have access to all premium features during your free time period!
               </Typography>
-            </Box>
+        </Box>
           )}
         </DialogContent>
         
