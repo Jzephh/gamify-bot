@@ -23,7 +23,10 @@ import {
   Star,
   StarBorder,
   CheckCircle,
-  Close
+  Close,
+  AdminPanelSettings,
+  People,
+  Settings
 } from '@mui/icons-material';
 
 interface User {
@@ -34,10 +37,21 @@ interface User {
   points: number;
   freetimeStartDate?: string;
   freetimeEndDate?: string;
+  roles: string[];
+}
+
+interface Membership {
+  _id: string;
+  name: string;
+  description: string;
+  duration: number;
+  cost: number;
+  isActive: boolean;
 }
 
 export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
+  const [memberships, setMemberships] = useState<Membership[]>([]);
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -68,9 +82,15 @@ export default function Dashboard() {
     return 'Pending';
   };
 
+  // Helper function to check if user is admin
+  const isAdmin = (user: User) => {
+    return user.roles && user.roles.includes('admin');
+  };
+
   useEffect(() => {
     // Fetch user data - authentication is handled by Whop SDK in the API
     fetchUser();
+    fetchMemberships();
   }, []);
 
   const fetchUser = async () => {
@@ -90,10 +110,25 @@ export default function Dashboard() {
     }
   };
 
-  const purchaseMembership = async (type: '7days' | '1month') => {
+  const fetchMemberships = async () => {
+    try {
+      const response = await fetch('/api/memberships');
+      const data = await response.json();
+      
+      if (response.ok) {
+        setMemberships(data);
+      } else {
+        console.error('Failed to fetch memberships:', data.error);
+      }
+    } catch (error) {
+      console.error('Failed to fetch memberships:', error);
+    }
+  };
+
+  const purchaseMembership = async (membershipId: string) => {
     if (!user) return;
     
-    setPurchasing(type);
+    setPurchasing(membershipId);
     setMessage(null);
     
     try {
@@ -104,7 +139,7 @@ export default function Dashboard() {
         },
         body: JSON.stringify({
           userId: user.userId,
-          membershipType: type,
+          membershipType: membershipId,
         }),
       });
       
@@ -158,9 +193,23 @@ export default function Dashboard() {
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Typography variant="h3" component="h1" gutterBottom>
-          Membership Dashboard
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Box />
+          <Typography variant="h3" component="h1">
+            Membership Dashboard
+          </Typography>
+          {isAdmin(user) && (
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<AdminPanelSettings />}
+              href="/admin"
+              sx={{ minWidth: 'auto' }}
+            >
+              Admin
+            </Button>
+          )}
+        </Box>
         <Typography variant="subtitle1" color="text.secondary">
           Use your points to purchase memberships
         </Typography>
@@ -219,92 +268,53 @@ export default function Dashboard() {
 
       {/* Membership Options */}
       <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
-        {/* 7 Days Free Membership */}
-        <Box sx={{ flex: '1 1 300px', minWidth: '300px' }}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flexGrow: 1 }}>
-              <Box sx={{ textAlign: 'center', mb: 2 }}>
-                <Star color="primary" sx={{ fontSize: 48, mb: 1 }} />
-                <Typography variant="h5" component="h3" gutterBottom>
-                  7 Days Free
-                </Typography>
-                <Chip 
-                  label="50 Points" 
-                  color="primary" 
-                  variant="outlined"
-                  sx={{ mb: 2 }}
-                />
-              </Box>
-              
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                Get 7 days of free membership access to all premium features.
-              </Typography>
-              
-              <Box sx={{ mt: 'auto' }}>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  size="large"
-                  disabled={user.points < 50 || purchasing === '7days'}
-                  onClick={() => purchaseMembership('7days')}
-                  startIcon={purchasing === '7days' ? <CircularProgress size={20} /> : <StarBorder />}
-                >
-                  {purchasing === '7days' ? 'Purchasing...' : 'Purchase 7 Days'}
-                </Button>
-                
-                {user.points < 50 && (
-                  <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-                    Insufficient points. Need {50 - user.points} more points.
+        {memberships.map((membership, index) => (
+          <Box key={membership._id} sx={{ flex: '1 1 300px', minWidth: '300px' }}>
+            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <CardContent sx={{ flexGrow: 1 }}>
+                <Box sx={{ textAlign: 'center', mb: 2 }}>
+                  <Star 
+                    color={index === 0 ? 'primary' : 'secondary'} 
+                    sx={{ fontSize: 48, mb: 1 }} 
+                  />
+                  <Typography variant="h5" component="h3" gutterBottom>
+                    {membership.name}
                   </Typography>
-                )}
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
-
-        {/* 1 Month Free Membership */}
-        <Box sx={{ flex: '1 1 300px', minWidth: '300px' }}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <CardContent sx={{ flexGrow: 1 }}>
-              <Box sx={{ textAlign: 'center', mb: 2 }}>
-                <Star color="secondary" sx={{ fontSize: 48, mb: 1 }} />
-                <Typography variant="h5" component="h3" gutterBottom>
-                  1 Month Free
-                </Typography>
-                <Chip 
-                  label="150 Points" 
-                  color="secondary" 
-                  variant="outlined"
-                  sx={{ mb: 2 }}
-                />
-              </Box>
-              
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                Get 1 month of free membership access to all premium features.
-              </Typography>
-              
-              <Box sx={{ mt: 'auto' }}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  fullWidth
-                  size="large"
-                  disabled={user.points < 150 || purchasing === '1month'}
-                  onClick={() => purchaseMembership('1month')}
-                  startIcon={purchasing === '1month' ? <CircularProgress size={20} /> : <Star />}
-                >
-                  {purchasing === '1month' ? 'Purchasing...' : 'Purchase 1 Month'}
-                </Button>
+                  <Chip 
+                    label={`${membership.cost} Points`} 
+                    color={index === 0 ? 'primary' : 'secondary'} 
+                    variant="outlined"
+                    sx={{ mb: 2 }}
+                  />
+                </Box>
                 
-                {user.points < 150 && (
-                  <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-                    Insufficient points. Need {150 - user.points} more points.
-                  </Typography>
-                )}
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                  {membership.description}
+                </Typography>
+                
+                <Box sx={{ mt: 'auto' }}>
+                  <Button
+                    variant="contained"
+                    color={index === 0 ? 'primary' : 'secondary'}
+                    fullWidth
+                    size="large"
+                    disabled={user.points < membership.cost || purchasing === membership._id}
+                    onClick={() => purchaseMembership(membership._id)}
+                    startIcon={purchasing === membership._id ? <CircularProgress size={20} /> : <StarBorder />}
+                  >
+                    {purchasing === membership._id ? 'Purchasing...' : `Purchase ${membership.name}`}
+                  </Button>
+                  
+                  {user.points < membership.cost && (
+                    <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
+                      Insufficient points. Need {membership.cost - user.points} more points.
+                    </Typography>
+                  )}
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+        ))}
       </Box>
 
       {/* Success Modal */}
@@ -328,9 +338,12 @@ export default function Dashboard() {
         <DialogContent>
           {purchaseDetails && (
             <Box>
-              <Typography variant="h6" gutterBottom>
-                🎉 Congratulations! Your free time membership has been activated.
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <CheckCircle color="success" />
+                <Typography variant="h6">
+                  Congratulations! Your free time membership has been activated.
+                </Typography>
+              </Box>
               
               <Box sx={{ mt: 2, p: 2, bgcolor: 'success.light', borderRadius: 1 }}>
                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>

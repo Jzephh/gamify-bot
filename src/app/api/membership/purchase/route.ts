@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { User } from '@/models/User';
+import { Membership } from '@/models/Membership';
 import { getWhopSdk } from '@/lib/whop';
 import { headers } from 'next/headers';
 
@@ -21,17 +22,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Membership type is required' }, { status: 400 });
     }
     
-    // Define membership costs
-    const membershipCosts = {
-      '7days': 50,
-      '1month': 150
-    };
+    // Find the membership in database
+    const membership = await Membership.findOne({ 
+      _id: membershipType, 
+      companyId, 
+      isActive: true 
+    });
     
-    const cost = membershipCosts[membershipType as keyof typeof membershipCosts];
-    
-    if (!cost) {
-      return NextResponse.json({ error: 'Invalid membership type' }, { status: 400 });
+    if (!membership) {
+      return NextResponse.json({ error: 'Membership not found or inactive' }, { status: 404 });
     }
+    
+    const cost = membership.cost;
     
     // Find user
     const user = await User.findOne({ userId, companyId });
@@ -51,15 +53,7 @@ export async function POST(request: NextRequest) {
     
     // Calculate free time dates
     const now = new Date();
-    let freeTimeEndDate: Date;
-    
-    if (membershipType === '7days') {
-      freeTimeEndDate = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 days from now
-    } else if (membershipType === '1month') {
-      freeTimeEndDate = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000)); // 30 days from now
-    } else {
-      return NextResponse.json({ error: 'Invalid membership type' }, { status: 400 });
-    }
+    const freeTimeEndDate = new Date(now.getTime() + (membership.duration * 24 * 60 * 60 * 1000));
     
     // Update user with new free time and deduct points
     user.points -= cost;
@@ -72,9 +66,9 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({
       success: true,
-      message: `Successfully purchased ${membershipType} membership`,
+      message: `Successfully purchased ${membership.name} membership`,
       remainingPoints: user.points,
-      membershipType,
+      membershipType: membership.name,
       cost,
       freetimeStartDate: user.freetimeStartDate,
       freetimeEndDate: user.freetimeEndDate
