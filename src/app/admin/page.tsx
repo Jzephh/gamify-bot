@@ -50,6 +50,9 @@ interface User {
   points: number;
   freetimeStartDate?: string;
   freetimeEndDate?: string;
+  membershipStatus: 'none' | 'pending' | 'approved' | 'rejected';
+  membershipRequestDate?: string;
+  requestedMembershipId?: string;
   roles: string[];
   createdAt: string;
   updatedAt: string;
@@ -264,18 +267,77 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleApproveUser = async (user: User) => {
+    try {
+      const response = await fetch('/api/admin/users/approve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.userId,
+          action: 'approve'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: 'Membership approved successfully' });
+        fetchUsers();
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Failed to approve membership' });
+      }
+    } catch {
+      setMessage({ type: 'error', text: 'Failed to approve membership' });
+    }
+  };
+
+  const handleRejectUser = async (user: User) => {
+    if (!confirm('Are you sure you want to reject this membership request?')) return;
+
+    try {
+      const response = await fetch('/api/admin/users/approve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.userId,
+          action: 'reject'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: 'Membership request rejected' });
+        fetchUsers();
+      } else {
+        setMessage({ type: 'error', text: data.error || 'Failed to reject membership' });
+      }
+    } catch {
+      setMessage({ type: 'error', text: 'Failed to reject membership' });
+    }
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
 
   const getFreeTimeStatus = (user: User) => {
-    if (!user.freetimeStartDate || !user.freetimeEndDate) return 'No Free Time';
-    const now = new Date();
-    const endDate = new Date(user.freetimeEndDate);
-    if (now > endDate) return 'Expired';
-    const startDate = new Date(user.freetimeStartDate);
-    if (now >= startDate && now <= endDate) return 'Active';
-    return 'Pending';
+    if (user.membershipStatus === 'pending') return 'Pending Approval';
+    if (user.membershipStatus === 'rejected') return 'Rejected';
+    if (user.membershipStatus === 'approved') {
+      if (!user.freetimeStartDate || !user.freetimeEndDate) return 'Active';
+      const now = new Date();
+      const endDate = new Date(user.freetimeEndDate);
+      if (now > endDate) return 'Expired';
+      const startDate = new Date(user.freetimeStartDate);
+      if (now >= startDate && now <= endDate) return 'Active';
+      return 'Pending';
+    }
+    return 'No Free Time';
   };
 
   if (loading) {
@@ -442,7 +504,9 @@ export default function AdminDashboard() {
                         color={
                           getFreeTimeStatus(user) === 'Active' ? 'success' :
                           getFreeTimeStatus(user) === 'Expired' ? 'error' :
-                          getFreeTimeStatus(user) === 'Pending' ? 'warning' : 'default'
+                          getFreeTimeStatus(user) === 'Pending Approval' ? 'warning' :
+                          getFreeTimeStatus(user) === 'Rejected' ? 'error' :
+                          getFreeTimeStatus(user) === 'Pending' ? 'info' : 'default'
                         }
                         size="small"
                       />
@@ -463,13 +527,35 @@ export default function AdminDashboard() {
                       ))}
                     </TableCell>
                     <TableCell>
-                      <IconButton
-                        onClick={() => handleEditUser(user)}
-                        color="primary"
-                        size="small"
-                      >
-                        <Edit />
-                      </IconButton>
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <IconButton
+                          onClick={() => handleEditUser(user)}
+                          color="primary"
+                          size="small"
+                        >
+                          <Edit />
+                        </IconButton>
+                        {user.membershipStatus === 'pending' && (
+                          <>
+                            <IconButton
+                              onClick={() => handleApproveUser(user)}
+                              color="success"
+                              size="small"
+                              title="Approve Membership"
+                            >
+                              <CheckCircle />
+                            </IconButton>
+                            <IconButton
+                              onClick={() => handleRejectUser(user)}
+                              color="error"
+                              size="small"
+                              title="Reject Membership"
+                            >
+                              <Cancel />
+                            </IconButton>
+                          </>
+                        )}
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}

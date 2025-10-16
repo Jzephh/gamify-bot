@@ -37,6 +37,9 @@ interface User {
   points: number;
   freetimeStartDate?: string;
   freetimeEndDate?: string;
+  membershipStatus: 'none' | 'pending' | 'approved' | 'rejected';
+  membershipRequestDate?: string;
+  requestedMembershipId?: string;
   roles: string[];
 }
 
@@ -74,12 +77,17 @@ export default function Dashboard() {
 
   // Helper function to get free time status text
   const getFreeTimeStatus = (user: User) => {
-    if (!user.freetimeStartDate || !user.freetimeEndDate) return 'No Free Time';
-    const now = new Date();
-    const endDate = new Date(user.freetimeEndDate);
-    if (now > endDate) return 'Expired';
-    if (hasActiveFreeTime(user)) return 'Active';
-    return 'Pending';
+    if (user.membershipStatus === 'pending') return 'Pending Approval';
+    if (user.membershipStatus === 'rejected') return 'Rejected';
+    if (user.membershipStatus === 'approved') {
+      if (!user.freetimeStartDate || !user.freetimeEndDate) return 'Active';
+      const now = new Date();
+      const endDate = new Date(user.freetimeEndDate);
+      if (now > endDate) return 'Expired';
+      if (hasActiveFreeTime(user)) return 'Active';
+      return 'Pending';
+    }
+    return 'No Free Time';
   };
 
   // Helper function to check if user is admin
@@ -281,9 +289,18 @@ export default function Dashboard() {
               </Typography>
             </Paper>
             <Paper sx={{ p: 2, textAlign: 'center', flex: '1 1 200px', minWidth: '200px' }}>
-              <Typography variant="h4" color="secondary">
-                {getFreeTimeStatus(user)}
-              </Typography>
+              <Chip
+                label={getFreeTimeStatus(user)}
+                color={
+                  getFreeTimeStatus(user) === 'Active' ? 'success' :
+                  getFreeTimeStatus(user) === 'Expired' ? 'error' :
+                  getFreeTimeStatus(user) === 'Pending Approval' ? 'warning' :
+                  getFreeTimeStatus(user) === 'Rejected' ? 'error' :
+                  getFreeTimeStatus(user) === 'Pending' ? 'info' : 'default'
+                }
+                size="large"
+                sx={{ fontSize: '1.2rem', py: 1 }}
+              />
               <Typography variant="body2" color="text.secondary">
                 Free Time Status
               </Typography>

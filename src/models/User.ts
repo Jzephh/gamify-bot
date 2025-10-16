@@ -12,6 +12,9 @@ export interface IUser extends Document {
   lastImageMessage: Date;
   roles: string[];
   stats: Record<string, unknown>;
+  membershipStatus: 'none' | 'pending' | 'approved' | 'rejected';
+  membershipRequestDate?: Date;
+  requestedMembershipId?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,6 +31,9 @@ const UserSchema = new Schema<IUser>({
   lastImageMessage: { type: Date, default: null },
   roles: { type: [String], default: [] },
   stats: { type: Schema.Types.Mixed, default: {} },
+  membershipStatus: { type: String, enum: ['none', 'pending', 'approved', 'rejected'], default: 'none' },
+  membershipRequestDate: { type: Date, default: null },
+  requestedMembershipId: { type: String, default: null },
 }, {
   timestamps: true,
 });

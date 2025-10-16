@@ -51,14 +51,12 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
     
-    // Calculate free time dates
-    const now = new Date();
-    const freeTimeEndDate = new Date(now.getTime() + (membership.duration * 24 * 60 * 60 * 1000));
-    
-    // Update user with new free time and deduct points
+    // Set membership status to pending (admin approval required)
     user.points -= cost;
-    user.freetimeStartDate = now;
-    user.freetimeEndDate = freeTimeEndDate;
+    user.membershipStatus = 'pending';
+    user.membershipRequestDate = new Date();
+    user.requestedMembershipId = membership._id;
+    // Don't set freetimeStartDate/freetimeEndDate until approved
     await user.save();
     
     // Here you would typically integrate with Whop's membership system
@@ -66,12 +64,11 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({
       success: true,
-      message: `Successfully purchased ${membership.name} membership`,
+      message: `Membership request submitted for approval. You will be notified when approved.`,
       remainingPoints: user.points,
       membershipType: membership.name,
       cost,
-      freetimeStartDate: user.freetimeStartDate,
-      freetimeEndDate: user.freetimeEndDate
+      membershipStatus: user.membershipStatus
     });
   } catch (error) {
     console.error('Error purchasing membership:', error);

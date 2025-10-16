@@ -113,6 +113,9 @@ export async function GET() {
       points: user.points,
       freetimeStartDate: user.freetimeStartDate,
       freetimeEndDate: user.freetimeEndDate,
+      membershipStatus: user.membershipStatus,
+      membershipRequestDate: user.membershipRequestDate,
+      requestedMembershipId: user.requestedMembershipId,
       roles: user.roles,
       stats: user.stats,
     });
