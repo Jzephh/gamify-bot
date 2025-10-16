@@ -260,49 +260,112 @@ export default function Dashboard() {
         </Card>
       )}
 
-      {/* User Info Card */}
-      <Card sx={{ mb: 4 }}>
-        <CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+      {/* User Profile Hero Card */}
+      <Card sx={{ 
+        mb: 4, 
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: 'white',
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: '20px',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+      }}>
+        <Box sx={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: '200px',
+          height: '200px',
+          background: 'rgba(255,255,255,0.1)',
+          borderRadius: '50%',
+          transform: 'translate(50%, -50%)'
+        }} />
+        <Box sx={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '150px',
+          height: '150px',
+          background: 'rgba(255,255,255,0.05)',
+          borderRadius: '50%',
+          transform: 'translate(-50%, 50%)'
+        }} />
+        <CardContent sx={{ position: 'relative', zIndex: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
             <Avatar 
               src={user.avatarUrl} 
               alt={user.name}
-              sx={{ width: 56, height: 56, mr: 2 }}
+              sx={{ 
+                width: 80, 
+                height: 80, 
+                mr: 3,
+                border: '3px solid rgba(255,255,255,0.3)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+              }}
             />
             <Box>
-              <Typography variant="h5" component="h2">
-                {user.name || user.username}
+              <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                Welcome back, {user.name || user.username}!
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="h6" sx={{ opacity: 0.9 }}>
                 @{user.username}
               </Typography>
             </Box>
           </Box>
           
-          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            <Paper sx={{ p: 2, textAlign: 'center', flex: '1 1 200px', minWidth: '200px' }}>
-              <Typography variant="h4" color="primary">
-                {user.points}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
+          <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+            <Paper sx={{ 
+              p: 3, 
+              textAlign: 'center', 
+              flex: '1 1 250px', 
+              minWidth: '250px',
+              background: 'rgba(255,255,255,0.15)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '16px'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+                <Star sx={{ fontSize: 32, mr: 1, color: '#FFD700' }} />
+                <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#FFD700' }}>
+                  {user.points}
+                </Typography>
+              </Box>
+              <Typography variant="h6" sx={{ opacity: 0.9 }}>
                 Points Available
               </Typography>
             </Paper>
-            <Paper sx={{ p: 2, textAlign: 'center', flex: '1 1 200px', minWidth: '200px' }}>
-              <Chip
-                label={getFreeTimeStatus(user)}
-                color={
-                  getFreeTimeStatus(user) === 'Active' ? 'success' :
-                  getFreeTimeStatus(user) === 'Expired' ? 'error' :
-                  getFreeTimeStatus(user) === 'Pending Approval' ? 'warning' :
-                  getFreeTimeStatus(user) === 'Rejected' ? 'error' :
-                  getFreeTimeStatus(user) === 'Pending' ? 'info' : 'default'
-                }
-                size="medium"
-                sx={{ fontSize: '1.2rem', py: 1 }}
-              />
-              <Typography variant="body2" color="text.secondary">
-                Free Time Status
+            <Paper sx={{ 
+              p: 3, 
+              textAlign: 'center', 
+              flex: '1 1 250px', 
+              minWidth: '250px',
+              background: 'rgba(255,255,255,0.15)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              borderRadius: '16px'
+            }}>
+              <Box sx={{ mb: 2 }}>
+                <Chip
+                  label={getFreeTimeStatus(user)}
+                  color={
+                    getFreeTimeStatus(user) === 'Active' ? 'success' :
+                    getFreeTimeStatus(user) === 'Expired' ? 'error' :
+                    getFreeTimeStatus(user) === 'Pending Approval' ? 'warning' :
+                    getFreeTimeStatus(user) === 'Rejected' ? 'error' :
+                    getFreeTimeStatus(user) === 'Pending' ? 'info' : 'default'
+                  }
+                  size="medium"
+                  sx={{ 
+                    fontSize: '1.1rem', 
+                    py: 1.5,
+                    px: 2,
+                    fontWeight: 'bold',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+                  }}
+                />
+              </Box>
+              <Typography variant="h6" sx={{ opacity: 0.9 }}>
+                Membership Status
               </Typography>
             </Paper>
           </Box>
@@ -321,48 +384,132 @@ export default function Dashboard() {
       )}
 
       {/* Membership Options */}
-      <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+      <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
         {memberships.map((membership, index) => (
-          <Box key={membership._id} sx={{ flex: '1 1 300px', minWidth: '300px' }}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <CardContent sx={{ flexGrow: 1 }}>
-                <Box sx={{ textAlign: 'center', mb: 2 }}>
-                  <Star 
-                    color={index === 0 ? 'primary' : 'secondary'} 
-                    sx={{ fontSize: 48, mb: 1 }} 
-                  />
-                  <Typography variant="h5" component="h3" gutterBottom>
+          <Box key={membership._id} sx={{ flex: '1 1 350px', minWidth: '350px', maxWidth: '400px' }}>
+            <Card sx={{ 
+              height: '100%', 
+              display: 'flex', 
+              flexDirection: 'column',
+              background: index === 0 
+                ? 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)'
+                : 'linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)',
+              color: 'white',
+              position: 'relative',
+              overflow: 'hidden',
+              borderRadius: '24px',
+              boxShadow: index === 0 
+                ? '0 20px 40px rgba(255, 107, 107, 0.3)'
+                : '0 20px 40px rgba(78, 205, 196, 0.3)',
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-8px)',
+                boxShadow: index === 0 
+                  ? '0 30px 60px rgba(255, 107, 107, 0.4)'
+                  : '0 30px 60px rgba(78, 205, 196, 0.4)'
+              }
+            }}>
+              {/* Decorative Elements */}
+              <Box sx={{
+                position: 'absolute',
+                top: -20,
+                right: -20,
+                width: '100px',
+                height: '100px',
+                background: 'rgba(255,255,255,0.1)',
+                borderRadius: '50%'
+              }} />
+              <Box sx={{
+                position: 'absolute',
+                bottom: -30,
+                left: -30,
+                width: '80px',
+                height: '80px',
+                background: 'rgba(255,255,255,0.05)',
+                borderRadius: '50%'
+              }} />
+              
+              <CardContent sx={{ flexGrow: 1, position: 'relative', zIndex: 1, p: 4 }}>
+                <Box sx={{ textAlign: 'center', mb: 3 }}>
+                  <Box sx={{ 
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 80,
+                    height: 80,
+                    borderRadius: '50%',
+                    background: 'rgba(255,255,255,0.2)',
+                    mb: 2
+                  }}>
+                    <Star sx={{ fontSize: 40, color: '#FFD700' }} />
+                  </Box>
+                  <Typography variant="h4" component="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
                     {membership.name}
                   </Typography>
-                  <Chip 
-                    label={`${membership.cost} Points`} 
-                    color={index === 0 ? 'primary' : 'secondary'} 
-                    variant="outlined"
-                    sx={{ mb: 2 }}
-                  />
+                  <Box sx={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    background: 'rgba(255,255,255,0.2)',
+                    borderRadius: '25px',
+                    px: 3,
+                    py: 1,
+                    mb: 2
+                  }}>
+                    <Star sx={{ fontSize: 20, mr: 1, color: '#FFD700' }} />
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                      {membership.cost} Points
+                    </Typography>
+                  </Box>
                 </Box>
                 
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                <Typography variant="body1" sx={{ mb: 4, opacity: 0.9, lineHeight: 1.6 }}>
                   {membership.description}
                 </Typography>
                 
                 <Box sx={{ mt: 'auto' }}>
                   <Button
                     variant="contained"
-                    color={index === 0 ? 'primary' : 'secondary'}
                     fullWidth
                     size="large"
                     disabled={user.points < membership.cost || purchasing === membership._id}
                     onClick={() => purchaseMembership(membership._id)}
                     startIcon={purchasing === membership._id ? <CircularProgress size={20} /> : <StarBorder />}
+                    sx={{
+                      background: 'rgba(255,255,255,0.2)',
+                      color: 'white',
+                      border: '2px solid rgba(255,255,255,0.3)',
+                      borderRadius: '15px',
+                      py: 2,
+                      fontSize: '1.1rem',
+                      fontWeight: 'bold',
+                      textTransform: 'none',
+                      boxShadow: '0 8px 20px rgba(0,0,0,0.2)',
+                      '&:hover': {
+                        background: 'rgba(255,255,255,0.3)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 12px 25px rgba(0,0,0,0.3)'
+                      },
+                      '&:disabled': {
+                        background: 'rgba(255,255,255,0.1)',
+                        color: 'rgba(255,255,255,0.5)'
+                      }
+                    }}
                   >
-                    {purchasing === membership._id ? 'Purchasing...' : `Purchase ${membership.name}`}
+                    {purchasing === membership._id ? 'Processing...' : `Get ${membership.name}`}
                   </Button>
                   
                   {user.points < membership.cost && (
-                    <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-                      Insufficient points. Need {membership.cost - user.points} more points.
-                    </Typography>
+                    <Box sx={{
+                      mt: 2,
+                      p: 2,
+                      background: 'rgba(255,255,255,0.1)',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(255,255,255,0.2)'
+                    }}>
+                      <Typography variant="body2" sx={{ color: '#FFD700', fontWeight: 'bold' }}>
+                        You need {membership.cost - user.points} more points to unlock this!
+                      </Typography>
+                    </Box>
                   )}
                 </Box>
               </CardContent>
