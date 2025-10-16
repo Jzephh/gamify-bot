@@ -54,6 +54,7 @@ interface User {
   membershipStatus: 'none' | 'pending' | 'approved' | 'rejected';
   membershipRequestDate?: string;
   requestedMembershipId?: string;
+  requestedMembership?: { _id: string; name: string; duration: number; cost: number } | null;
   roles: string[];
   createdAt: string;
   updatedAt: string;
@@ -474,6 +475,7 @@ export default function AdminDashboard() {
                   <TableCell>Free Time Status</TableCell>
                   <TableCell>Start Date</TableCell>
                   <TableCell>Expire Date</TableCell>
+                  <TableCell>Redeemed</TableCell>
                   <TableCell>Roles</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
@@ -520,6 +522,12 @@ export default function AdminDashboard() {
                     <TableCell>
                       <Typography variant="body2">
                         {user.freetimeEndDate ? formatDate(user.freetimeEndDate) : 'N/A'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="body2">
+                        {(user as any).requestedMembership?.name || '—'}
+                        {(user as any).requestedMembership?.duration ? ` — ${(user as any).requestedMembership?.duration} days` : ''}
                       </Typography>
                     </TableCell>
                     <TableCell>

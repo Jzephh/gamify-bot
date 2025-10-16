@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { User } from '@/models/User';
+import { Membership } from '@/models/Membership';
 import { getWhopSdk } from '@/lib/whop';
 import { headers } from 'next/headers';
 
@@ -105,6 +106,17 @@ export async function GET() {
       await user.save();
     }
     
+    // Resolve requested membership details if present
+    let requestedMembership: { _id: string; name: string; duration: number; cost: number } | null = null;
+    if (user.requestedMembershipId) {
+      try {
+        const m = await Membership.findById(user.requestedMembershipId);
+        if (m) {
+          requestedMembership = { _id: m._id.toString(), name: m.name, duration: m.duration, cost: m.cost };
+        }
+      } catch {}
+    }
+
     return NextResponse.json({
       userId: user.userId,
       username: user.username,
@@ -116,6 +128,7 @@ export async function GET() {
       membershipStatus: user.membershipStatus,
       membershipRequestDate: user.membershipRequestDate,
       requestedMembershipId: user.requestedMembershipId,
+      requestedMembership,
       roles: user.roles,
       stats: user.stats,
     });
