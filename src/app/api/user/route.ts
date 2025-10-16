@@ -21,6 +21,14 @@ export async function GET() {
   try {
     await connectDB();
     
+    // Log database connection info
+    const mongoose = require('mongoose');
+    console.log('=== VERCEL DEPLOYMENT DEBUG ===');
+    console.log('Connected to database:', mongoose.connection.db.databaseName);
+    console.log('Environment:', process.env.NODE_ENV);
+    console.log('MONGO_URI (first 50 chars):', process.env.MONGO_URI?.substring(0, 50) + '...');
+    console.log('Available collections:', await mongoose.connection.db.listCollections().toArray());
+    
     const whopSdk = getWhopSdk();
     const { userId } = await whopSdk.verifyUserToken(await headers());
     console.log('userId', userId);
@@ -30,6 +38,17 @@ export async function GET() {
     if (!userId) {
       return NextResponse.json({ error: 'User not authenticated' }, { status: 401 });
     }
+    
+    // Debug: Show all users in database
+    const allUsers = await User.find({});
+    console.log('All users in database:', allUsers.map(u => ({ 
+      _id: u._id, 
+      userId: u.userId, 
+      companyId: u.companyId, 
+      username: u.username, 
+      name: u.name, 
+      points: u.points 
+    })));
     
     let user = await User.findOne({ userId, companyId });
     console.log('Found user by userId/companyId:', user ? { userId: user.userId, companyId: user.companyId, points: user.points } : 'No user found');
