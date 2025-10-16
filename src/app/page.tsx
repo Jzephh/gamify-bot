@@ -20,7 +20,6 @@ import {
   IconButton
 } from '@mui/material';
 import {
-  Star,
   Stars,
   AutoAwesome,
   WorkspacePremium,
@@ -29,8 +28,6 @@ import {
   CheckCircle,
   Close,
   AdminPanelSettings,
-  People,
-  Settings
 } from '@mui/icons-material';
 
 interface User {
@@ -44,7 +41,12 @@ interface User {
   membershipStatus: 'none' | 'pending' | 'approved' | 'rejected';
   membershipRequestDate?: string;
   requestedMembershipId?: string;
-  requestedMembership?: { _id: string; name: string; duration: number; cost: number } | null;
+  requestedMembership?: {
+    _id: string;
+    name: string;
+    duration: number;
+    cost: number;
+  } | null;
   roles: string[];
 }
 
@@ -78,21 +80,6 @@ export default function Dashboard() {
     const startDate = new Date(user.freetimeStartDate);
     const endDate = new Date(user.freetimeEndDate);
     return now >= startDate && now <= endDate;
-  };
-
-  // Helper function to get free time status text
-  const getFreeTimeStatus = (user: User) => {
-    if (user.membershipStatus === 'pending') return 'Pending Approval';
-    if (user.membershipStatus === 'rejected') return 'Rejected';
-    if (user.membershipStatus === 'approved') {
-      if (!user.freetimeStartDate || !user.freetimeEndDate) return 'Active';
-      const now = new Date();
-      const endDate = new Date(user.freetimeEndDate);
-      if (now > endDate) return 'Expired';
-      if (hasActiveFreeTime(user)) return 'Active';
-      return 'Pending';
-    }
-    return 'No Free Time';
   };
 
   // Helper function to check if user is admin
@@ -429,10 +416,10 @@ export default function Dashboard() {
               </Typography>
             </Paper>
             {user.requestedMembershipId && (
-              <Paper sx={{ 
-                p: 3, 
-                textAlign: 'center', 
-                flex: '1 1 250px', 
+              <Paper sx={{
+                p: 3,
+                textAlign: 'center',
+                flex: '1 1 250px',
                 minWidth: '250px',
                 background: 'rgba(255,255,255,0.15)',
                 backdropFilter: 'blur(10px)',
@@ -443,7 +430,7 @@ export default function Dashboard() {
                   Redeemed Membership
                 </Typography>
                 <Typography variant="body1">
-                  {(user as any).requestedMembership?.name || memberships.find(m => m._id === user.requestedMembershipId)?.name || 'Membership'} — {(user as any).requestedMembership?.duration || memberships.find(m => m._id === user.requestedMembershipId)?.duration || '?'} days
+                  {user.requestedMembership?.name ?? memberships.find(m => m._id === user.requestedMembershipId)?.name ?? 'Membership'} — {user.requestedMembership?.duration ?? memberships.find(m => m._id === user.requestedMembershipId)?.duration ?? '?'} days
                 </Typography>
                 <Chip label={user.membershipStatus.toUpperCase()} size="small" sx={{ mt: 1 }} />
               </Paper>

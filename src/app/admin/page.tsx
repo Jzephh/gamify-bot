@@ -16,7 +16,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   TextField,
   Dialog,
   DialogTitle,
@@ -37,7 +36,6 @@ import {
   AdminPanelSettings,
   People,
   Star,
-  Settings,
   Group,
   CheckCircle,
 } from '@mui/icons-material';
@@ -54,7 +52,12 @@ interface User {
   membershipStatus: 'none' | 'pending' | 'approved' | 'rejected';
   membershipRequestDate?: string;
   requestedMembershipId?: string;
-  requestedMembership?: { _id: string; name: string; duration: number; cost: number } | null;
+  requestedMembership?: {
+    _id: string;
+    name: string;
+    duration: number;
+    cost: number;
+  } | null;
   roles: string[];
   createdAt: string;
   updatedAt: string;
@@ -526,8 +529,8 @@ export default function AdminDashboard() {
                     </TableCell>
                     <TableCell>
                       <Typography variant="body2">
-                        {(user as any).requestedMembership?.name || '—'}
-                        {(user as any).requestedMembership?.duration ? ` — ${(user as any).requestedMembership?.duration} days` : ''}
+                        {user.requestedMembership?.name ?? '—'}
+                        {user.requestedMembership?.duration ? ` — ${user.requestedMembership.duration} days` : ''}
                       </Typography>
                     </TableCell>
                     <TableCell>
