@@ -571,57 +571,6 @@ export default function AdminDashboard() {
         </Box>
       </Box>
 
-      {/* System Settings - Always Visible */}
-      <Card sx={{ mb: 4 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            System Settings
-          </Typography>
-          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 3 }}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Company Information
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Manage your company settings and configuration
-                </Typography>
-                <Button variant="outlined" startIcon={<Settings />}>
-                  Configure Company
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Database Management
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  View database statistics and perform maintenance
-                </Typography>
-                <Button variant="outlined" startIcon={<AdminPanelSettings />}>
-                  Database Tools
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  System Logs
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  View system logs and activity history
-                </Typography>
-                <Button variant="outlined" startIcon={<People />}>
-                  View Logs
-                </Button>
-              </CardContent>
-            </Card>
-          </Box>
-        </CardContent>
-      </Card>
 
       {/* Edit User Dialog */}
       <Dialog open={showEditDialog} onClose={() => setShowEditDialog(false)} maxWidth="sm" fullWidth>
