@@ -24,7 +24,9 @@ import {
   DialogActions,
   IconButton,
   Chip,
-  Avatar
+  Avatar,
+  Tabs,
+  Tab
 } from '@mui/material';
 import {
   ArrowBack,
@@ -34,7 +36,9 @@ import {
   Add,
   AdminPanelSettings,
   People,
-  Star
+  Star,
+  Settings,
+  Group
 } from '@mui/icons-material';
 
 interface User {
@@ -68,6 +72,7 @@ export default function AdminDashboard() {
   const [users, setUsers] = useState<User[]>([]);
   const [memberships, setMemberships] = useState<Membership[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState(0);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [editingPoints, setEditingPoints] = useState(0);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -363,8 +368,37 @@ export default function AdminDashboard() {
         </Card>
       </Box>
 
-      {/* Users Table */}
+      {/* Tabs */}
       <Card sx={{ mb: 4 }}>
+        <Tabs 
+          value={activeTab} 
+          onChange={(e, newValue) => setActiveTab(newValue)}
+          sx={{ borderBottom: 1, borderColor: 'divider' }}
+        >
+          <Tab 
+            icon={<Group />} 
+            label="Users" 
+            iconPosition="start"
+            sx={{ textTransform: 'none' }}
+          />
+          <Tab 
+            icon={<Star />} 
+            label="Memberships" 
+            iconPosition="start"
+            sx={{ textTransform: 'none' }}
+          />
+          <Tab 
+            icon={<Settings />} 
+            label="Settings" 
+            iconPosition="start"
+            sx={{ textTransform: 'none' }}
+          />
+        </Tabs>
+      </Card>
+
+      {/* Tab Content */}
+      {activeTab === 0 && (
+        <Card sx={{ mb: 4 }}>
         <CardContent>
           <Typography variant="h6" gutterBottom>
             User Management
@@ -432,10 +466,12 @@ export default function AdminDashboard() {
             </Table>
           </TableContainer>
         </CardContent>
-      </Card>
+        </Card>
+      )}
 
-      {/* Memberships Management */}
-      <Card sx={{ mb: 4 }}>
+      {/* Memberships Tab */}
+      {activeTab === 1 && (
+        <Card sx={{ mb: 4 }}>
         <CardContent>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Typography variant="h6">
@@ -519,7 +555,62 @@ export default function AdminDashboard() {
             </Table>
           </TableContainer>
         </CardContent>
-      </Card>
+        </Card>
+      )}
+
+      {/* Settings Tab */}
+      {activeTab === 2 && (
+        <Card sx={{ mb: 4 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              System Settings
+            </Typography>
+            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 3 }}>
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Company Information
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    Manage your company settings and configuration
+                  </Typography>
+                  <Button variant="outlined" startIcon={<Settings />}>
+                    Configure Company
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Database Management
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    View database statistics and perform maintenance
+                  </Typography>
+                  <Button variant="outlined" startIcon={<AdminPanelSettings />}>
+                    Database Tools
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card variant="outlined">
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    System Logs
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    View system logs and activity history
+                  </Typography>
+                  <Button variant="outlined" startIcon={<People />}>
+                    View Logs
+                  </Button>
+                </CardContent>
+              </Card>
+            </Box>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Edit User Dialog */}
       <Dialog open={showEditDialog} onClose={() => setShowEditDialog(false)} maxWidth="sm" fullWidth>
