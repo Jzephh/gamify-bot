@@ -12,11 +12,18 @@ import {
   Alert,
   Chip,
   Avatar,
-  Paper
+  Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton
 } from '@mui/material';
 import {
   Star,
-  StarBorder
+  StarBorder,
+  CheckCircle,
+  Close
 } from '@mui/icons-material';
 
 interface User {
@@ -34,6 +41,13 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [purchaseDetails, setPurchaseDetails] = useState<{
+    membershipType: string;
+    remainingPoints: number;
+    freetimeStartDate?: string;
+    freetimeEndDate?: string;
+  } | null>(null);
 
   // Helper function to check if user has active free time
   const hasActiveFreeTime = (user: User) => {
@@ -97,7 +111,17 @@ export default function Dashboard() {
       const data = await response.json();
       
       if (response.ok) {
-        setMessage({ type: 'success', text: data.message });
+        // Store purchase details for modal
+        setPurchaseDetails({
+          membershipType: data.membershipType,
+          remainingPoints: data.remainingPoints,
+          freetimeStartDate: data.freetimeStartDate,
+          freetimeEndDate: data.freetimeEndDate
+        });
+        
+        // Show success modal
+        setShowSuccessModal(true);
+        
         // Refresh user data
         fetchUser();
       } else {
@@ -282,6 +306,66 @@ export default function Dashboard() {
           </Card>
         </Box>
       </Box>
+
+      {/* Success Modal */}
+      <Dialog 
+        open={showSuccessModal} 
+        onClose={() => setShowSuccessModal(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <CheckCircle color="success" />
+          Purchase Successful!
+          <IconButton
+            onClick={() => setShowSuccessModal(false)}
+            sx={{ ml: 'auto' }}
+          >
+            <Close />
+          </IconButton>
+        </DialogTitle>
+        
+        <DialogContent>
+          {purchaseDetails && (
+            <Box>
+              <Typography variant="h6" gutterBottom>
+                🎉 Congratulations! Your free time membership has been activated.
+              </Typography>
+              
+              <Box sx={{ mt: 2, p: 2, bgcolor: 'success.light', borderRadius: 1 }}>
+                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                  {purchaseDetails.membershipType === '7days' ? '7 Days' : '1 Month'} Free Time
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Valid from {new Date(purchaseDetails.freetimeStartDate || '').toLocaleDateString()} 
+                  {' '}to {new Date(purchaseDetails.freetimeEndDate || '').toLocaleDateString()}
+                </Typography>
+              </Box>
+              
+              <Box sx={{ mt: 2, p: 2, bgcolor: 'info.light', borderRadius: 1 }}>
+                <Typography variant="body2">
+                  <strong>Remaining Points:</strong> {purchaseDetails.remainingPoints}
+                </Typography>
+              </Box>
+              
+              <Typography variant="body2" sx={{ mt: 2, fontStyle: 'italic' }}>
+                You now have access to all premium features during your free time period!
+              </Typography>
+            </Box>
+          )}
+        </DialogContent>
+        
+        <DialogActions>
+          <Button 
+            onClick={() => setShowSuccessModal(false)}
+            variant="contained"
+            color="primary"
+            fullWidth
+          >
+            Got it!
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }
