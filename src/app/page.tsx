@@ -10,7 +10,6 @@ import {
   Box,
   CircularProgress,
   Alert,
-  Chip,
   Avatar,
   Paper,
   Dialog,
@@ -28,8 +27,9 @@ import {
   CheckCircle,
   Close,
   AdminPanelSettings,
+  Warning,
 } from '@mui/icons-material';
-
+import { motion, AnimatePresence } from 'framer-motion';
 interface User {
   userId: string;
   username: string;
@@ -73,14 +73,6 @@ export default function Dashboard() {
     freetimeEndDate?: string;
   } | null>(null);
 
-  // Helper function to check if user has active free time
-  const hasActiveFreeTime = (user: User) => {
-    if (!user.freetimeStartDate || !user.freetimeEndDate) return false;
-    const now = new Date();
-    const startDate = new Date(user.freetimeStartDate);
-    const endDate = new Date(user.freetimeEndDate);
-    return now >= startDate && now <= endDate;
-  };
 
   // Helper function to check if user is admin
   const isAdmin = (user: User) => {
@@ -251,7 +243,145 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       )}
-
+    {/* HUGE WARNING MESSAGE */}
+    <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ 
+              duration: 0.6,
+              delay: 0.1,
+              type: "spring",
+              stiffness: 200,
+              damping: 15
+            }}
+          >
+            <Paper
+              elevation={0}
+              sx={{
+                background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)',
+                borderRadius: 3,
+                p: 3,
+                mb: 4,
+                border: '3px solid #ef4444',
+                boxShadow: `
+                  0 0 30px rgba(220, 38, 38, 0.8),
+                  0 0 60px rgba(185, 28, 28, 0.6),
+                  0 10px 30px rgba(0, 0, 0, 0.5),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                `,
+                position: 'relative',
+                overflow: 'hidden',
+                animation: 'warningPulse 2s ease-in-out infinite',
+                '@keyframes warningPulse': {
+                  '0%, 100%': { 
+                    boxShadow: `
+                      0 0 30px rgba(220, 38, 38, 0.8),
+                      0 0 60px rgba(185, 28, 28, 0.6),
+                      0 10px 30px rgba(0, 0, 0, 0.5)
+                    `
+                  },
+                  '50%': { 
+                    boxShadow: `
+                      0 0 40px rgba(220, 38, 38, 1),
+                      0 0 80px rgba(185, 28, 28, 0.8),
+                      0 15px 40px rgba(0, 0, 0, 0.6)
+                    `
+                  },
+                },
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%)',
+                  transform: 'translateX(-100%)',
+                  animation: 'warningShimmer 3s infinite',
+                  zIndex: 1,
+                },
+                '@keyframes warningShimmer': {
+                  '0%': { transform: 'translateX(-100%)' },
+                  '100%': { transform: 'translateX(100%)' },
+                },
+              }}
+            >
+              <Box sx={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 1 }}>
+                  <Warning 
+                    sx={{ 
+                      fontSize: { xs: '2rem', md: '2.5rem' },
+                      color: '#ffffff',
+                      mr: 2,
+                      filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))',
+                      animation: 'warningIconPulse 2s ease-in-out infinite',
+                      '@keyframes warningIconPulse': {
+                        '0%, 100%': { 
+                          transform: 'scale(1)',
+                          filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))'
+                        },
+                        '50%': { 
+                          transform: 'scale(1.1)',
+                          filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.8))'
+                        },
+                      },
+                    }} 
+                  />
+                  <Typography 
+                    variant="h3" 
+                    sx={{ 
+                      color: '#ffffff',
+                      fontWeight: 900,
+                      fontSize: { xs: '1.5rem', md: '2rem' },
+                      textShadow: '0 0 20px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5)',
+                      animation: 'warningTextGlow 2s ease-in-out infinite',
+                      '@keyframes warningTextGlow': {
+                        '0%, 100%': { 
+                          textShadow: '0 0 20px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5)'
+                        },
+                        '50%': { 
+                          textShadow: '0 0 30px rgba(255, 255, 255, 0.3), 0 0 20px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5)'
+                        },
+                      },
+                    }}
+                  >
+                    HUGE WARNING
+                  </Typography>
+                  <Warning 
+                    sx={{ 
+                      fontSize: { xs: '2rem', md: '2.5rem' },
+                      color: '#ffffff',
+                      ml: 2,
+                      filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))',
+                      animation: 'warningIconPulse 2s ease-in-out infinite',
+                      '@keyframes warningIconPulse': {
+                        '0%, 100%': { 
+                          transform: 'scale(1)',
+                          filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))'
+                        },
+                        '50%': { 
+                          transform: 'scale(1.1)',
+                          filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.8))'
+                        },
+                      },
+                    }} 
+                  />
+                </Box>
+                <Typography 
+                  variant="h4" 
+                  sx={{ 
+                    color: '#ffffff',
+                    fontWeight: 800,
+                    fontSize: { xs: '1.2rem', md: '1.5rem' },
+                    textShadow: '0 0 15px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.5)',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  If you leave eMoney, you will lose ALL your points/levels
+                </Typography>
+              </Box>
+            </Paper>
+          </motion.div>
       {/* User Profile Hero Card */}
       <Card sx={{ 
         mb: 4, 

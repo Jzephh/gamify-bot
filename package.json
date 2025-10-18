@@ -16,6 +16,7 @@
     "@mui/styled-engine-sc": "^7.3.3",
     "@whop/api": "^0.0.51",
     "dotenv": "^17.2.3",
+    "framer-motion": "^12.23.24",
     "mongoose": "^8.19.1",
     "next": "15.5.5",
     "react": "19.1.0",
