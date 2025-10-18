@@ -377,7 +377,7 @@ export default function Dashboard() {
                     lineHeight: 1.2,
                   }}
                 >
-                  If you leave eMoney, you will lose ALL your points/levels
+                  If you leave eMoney, you will lose all your points!
                 </Typography>
               </Box>
             </Paper>
